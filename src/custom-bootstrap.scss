@@ -1,0 +1,36 @@
+// Import your custom variables
+@import './_variables.scss'; // Adjust the path according to your file structure
+
+// Import Bootstrap’s source files
+@import '~bootstrap/scss/bootstrap';
+
+.big-block{
+    height: 100vh;
+}
+
+.homepage .bg-image{
+    background-image: url('../public/bg-homepage.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+// Styles for mobile view
+@media (max-width: 991.98px) {
+    .big-block.bg-image {
+      // Hide the second block in mobile view
+      height: 50vh;
+    }
+  }
+
+.logo-img{
+    width: 150px;
+    height: 150px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-image: url('../public/logo.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
