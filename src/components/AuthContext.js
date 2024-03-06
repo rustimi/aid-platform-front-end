@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext } from 'react';
 import { API_BASE_URL } from './config';
 import axios from 'axios';
 
@@ -9,8 +9,6 @@ export function useAuth() {
 }
 
 export const AuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
-
 
   const login = async (email, password) => {
     try {
@@ -41,14 +39,11 @@ export const AuthProvider = ({ children }) => {
   
 
   const logout = () => {
-    // Implement logout logic
-    setCurrentUser(null);
     localStorage.removeItem('token');
     axios.defaults.headers.common['Authorization'] = null
   };
 
   const value = {
-    currentUser,
     login,
     logout,
   };
