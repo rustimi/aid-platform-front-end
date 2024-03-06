@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Outlet} from "react-router-dom";
 
 export default function HomePage() {
     return (
@@ -28,6 +28,7 @@ export default function HomePage() {
             <p>This platform is your doorway to making a difference, where every act of kindness is a step towards a more compassionate world. Whether you're offering support or seeking it, you're never alone. With features designed to make volunteering seamless and meaningful, from direct messaging to real-time updates on unfulfilled requests, your goodwill finds its way exactly where it's needed. As you explore our homepage on</p>
           </div>
         </div>
+        <Outlet /> 
       </div>
     );
   }

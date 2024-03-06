@@ -5,12 +5,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './custom-bootstrap.scss';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-
+import { AuthProvider } from './components/AuthContext';
+// import React, { createContext} from 'react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+// const base_api_url = "  https://aid-platform-api.onrender.com"
 root.render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   </React.StrictMode>
 );
 

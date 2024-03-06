@@ -2,7 +2,7 @@ import React from 'react';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 // import SignupPage from './pages/SignupPage';
-// import LoginPage from './pages/LoginPage';
+import LoginPage from './pages/LoginPage';
 // import DashboardPage from './pages/DashboardPage';
 // import ActiveRequestsPage from './pages/ActiveRequestsPage';
 // import NewRequestPage from './pages/NewRequestPage';
@@ -17,8 +17,8 @@ const router = createBrowserRouter([
     element: <HomePage />,
     errorElement: <NotFoundPage />,
     // children: [
-    //   { path: 'signup', element: <SignupPage /> },
-    //   { path: 'login', element: <LoginPage /> },
+      // { path: 'signup', element: <SignupPage /> },
+      // { path: 'login', element: <LoginPage /> },
     //   { path: 'user-info', element: <UserInfoPage /> },
     //   {
     //     path: 'dashboard',
@@ -36,6 +36,10 @@ const router = createBrowserRouter([
     //   },
     // ],
   },
+  {
+    path: '/login',
+    element: <LoginPage />,
+  }
 ]);
 
 function App() {
