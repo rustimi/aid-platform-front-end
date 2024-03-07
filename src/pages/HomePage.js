@@ -1,6 +1,8 @@
 import { Link, Outlet} from "react-router-dom";
+import { useAuth } from "../components/AuthContext";
 
 export default function HomePage() {
+  const { isAuthenticated } = useAuth();
     return (
       <div className="homepage container-fluid p-0">
         <div className="logo-img m-sm-auto"></div>
@@ -8,13 +10,18 @@ export default function HomePage() {
           <div className="col-12 col-lg-7 big-block bg-primary d-flex align-items-center justify-content-center">
             <div className="text-white">
               <h1>Kind Quest - community help</h1>
-              <p>Be a part of power of the community</p>
-              <div className="row">
+              <p>Be a part of power of the community!</p>
+              <div className={`row ${isAuthenticated() ? 'd-none' : ''}`}>
                 <div className="col -6">
                 <Link to="/signup" className="btn btn-secondary w-100">Sign Up</Link>
                 </div>
                 <div className="col-6">
                 <Link to="/login" className="btn btn-secondary w-100">Login</Link>
+                </div>
+              </div>
+              <div className={`row ${isAuthenticated() ? '' : 'd-none'}`}>
+              <div className="col-10 mx-auto">
+                <Link to="/dashboard" className="btn btn-secondary w-100">Go to Dashboard</Link>
                 </div>
               </div>
             </div>
