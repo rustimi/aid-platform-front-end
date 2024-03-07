@@ -7,16 +7,24 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
-
+  const [showAlert, setShowAlert] = useState(false);
+  const [ShowSpinner, setShowSpinner] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
-      // Redirect to another page on successful login
-      navigate('/dashboard');
+      setShowSpinner(true)
+      let login_result = await login(email, password);
+      setShowAlert(!login_result)
+      setShowSpinner(false)
+      if (login_result) {
+        // Redirect to another page on successful login
+        navigate('/dashboard');
+      } else {
+        setShowAlert(true)
+      }
     } catch (error) {
-      // Handle login error (e.g., show an error message)
+      setShowAlert(true)
       console.error('Login failed:', error);
     }
   };
@@ -41,7 +49,14 @@ export default function LoginPage() {
           <div className="mb-3">
             <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
           </div>
-          <button type="submit" className="btn btn-primary w-100">Login</button>
+          <div class={`spinner-border login-spinner  ${ShowSpinner ? 'show' : ''}`} role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <button type="submit" className={`btn btn-primary w-100 ${ShowSpinner ? 'd-none' : ''}`}>Login</button>
+          <div className={`alert alert-danger mt-3 ${showAlert ? 'show' : ''}`} role="alert">
+            Something went wrong, try again later!
+          </div>
+
         </form>
       </div>
 

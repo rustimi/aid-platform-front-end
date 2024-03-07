@@ -21,8 +21,9 @@ export const AuthProvider = ({ children }) => {
         // The request was successful
         localStorage.setItem('token', response.headers.authorization);
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.headers.authorization}`;
+        return true;
       } else {
-        console.error('Login failed');
+          console.error('Login failed');
       }
     } catch (error) {
       if (error.response) {
@@ -35,6 +36,7 @@ export const AuthProvider = ({ children }) => {
         console.error('Login error:', error.message);
       }
     }
+    return false; // Login failed
   };
   
 

@@ -11,28 +11,33 @@ export default function SignupPage() {
     const [last_name, setLastName] = useState('');
     const { login } = useAuth();
     const navigate = useNavigate();
-
+    const [showAlert, setShowAlert] = useState(false);
+    const [ShowSpinner, setShowSpinner] = useState(false);
 
     const handleSubmit = async (e) => {
+        setShowAlert(false)
         e.preventDefault();
         try {
-
+            setShowSpinner(true)
             const response = await axios.put(`${API_BASE_URL}/users`, {
                 fname: first_name,
                 lname: last_name,
                 email: email,
                 password: password,
             });
-
             if (response.status === 201) {
-                await login(email, password);
-                navigate('/dashboard');
+                let login_result = await login(email, password);
+                setShowAlert(!login_result)
+                if (login_result) {
+                    navigate('/dashboard');
+                }
             } else {
-                console.error('Signup failed');
+                setShowAlert(true)
             }
         } catch (error) {
-            console.log(error)
+            setShowAlert(true)
         }
+        setShowSpinner(false)
     };
 
 
@@ -61,7 +66,13 @@ export default function SignupPage() {
                     <div className="mb-3">
                         <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
                     </div>
-                    <button type="submit" className="btn btn-primary w-100">Signup</button>
+                    <div class={`spinner-border login-spinner  ${ShowSpinner ? 'show' : ''}`} role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <button type="submit" className={`btn btn-primary w-100 ${ShowSpinner ? 'd-none' : ''}`}>Signup</button>
+                    <div className={`alert alert-danger mt-3 ${showAlert ? 'show' : ''}`} role="alert">
+                        Something went wrong, try again later!
+                    </div>
                 </form>
             </div>
 
