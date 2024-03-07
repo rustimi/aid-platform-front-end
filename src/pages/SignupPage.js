@@ -88,7 +88,7 @@ export default function SignupPage() {
                         <span className="sr-only">Loading...</span>
                     </div>
                     <button type="submit" className={`btn btn-primary w-100 ${ShowSpinner ? 'd-none' : ''}`}>Signup</button>
-
+                    <Link to="/login" className="text-dark">Login</Link>
                     {loginError &&
                         <div className={'alert alert-danger mt-3 show'} role="alert">
                             {loginError}
