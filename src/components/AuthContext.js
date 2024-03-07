@@ -42,11 +42,16 @@ export const AuthProvider = ({ children }) => {
     setLoginError(null); 
   };
 
+  const isAuthenticated = () => {
+    return localStorage.getItem('token') !== null;
+  };
+  
   const value = {
     login,
     logout,
     loginError,
     setLoginError,
+    isAuthenticated,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../components/AuthContext';
 
 export default function LoginPage() {
-  const { login, loginError, setLoginError } = useAuth();
+  const { login, loginError, setLoginError, isAuthenticated } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [ShowSpinner, setShowSpinner] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (isAuthenticated() == true) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("aaa")
     setShowSpinner(true)
     setLoginError(null); 
 

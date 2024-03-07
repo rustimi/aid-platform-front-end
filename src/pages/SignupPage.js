@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../components/AuthContext';
 import { API_BASE_URL } from '../components/config';
@@ -9,11 +9,17 @@ export default function SignupPage() {
     const [password, setPassword] = useState('');
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
-    const { login, loginError, setLoginError } = useAuth();
+    const { login, loginError, setLoginError, isAuthenticated } = useAuth();
     const navigate = useNavigate();
     const [ShowSpinner, setShowSpinner] = useState(false);
     const [userCreateErrors, setUserCreateErrors] = useState({});
 
+    useEffect(() => {
+        if (isAuthenticated() == true) {
+          navigate('/');
+        }
+      }, [isAuthenticated, navigate]);
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
