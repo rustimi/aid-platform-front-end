@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { API_BASE_URL } from './config';
 import axios from 'axios';
 
@@ -9,7 +9,8 @@ export function useAuth() {
 }
 
 export const AuthProvider = ({ children }) => {
-
+  const [loginError, setLoginError] = useState(null); // State to track login errors
+  
   const login = async (email, password) => {
     try {
       const response = await axios.post(`${API_BASE_URL}/login`, {
@@ -18,23 +19,18 @@ export const AuthProvider = ({ children }) => {
       });
   
       if (response.status === 200) {
-        // The request was successful
         localStorage.setItem('token', response.headers.authorization);
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.headers.authorization}`;
-        return true;
-      } else {
-          console.error('Login failed');
+        return true; // Login successful
       }
     } catch (error) {
-      if (error.response) {
-        console.error('Login error:', error.response.data);
-      } else if (error.request) {
-        // Request was made but no response
-        console.error('Login error: No response received');
-      } else {
-        // Something happened sho error
-        console.error('Login error:', error.message);
+      let errorMessage = ''    
+      if (error.response.data.error) {
+        errorMessage =  error.response.data.error
+      }else{
+        errorMessage = "Login failed due to server error"
       }
+      setLoginError(errorMessage);
     }
     return false; // Login failed
   };
@@ -43,11 +39,14 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token');
     axios.defaults.headers.common['Authorization'] = null
+    setLoginError(null); 
   };
 
   const value = {
     login,
     logout,
+    loginError,
+    setLoginError,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -3,30 +3,23 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../components/AuthContext';
 
 export default function LoginPage() {
+  const { login, loginError, setLoginError } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login } = useAuth();
-  const navigate = useNavigate();
-  const [showAlert, setShowAlert] = useState(false);
   const [ShowSpinner, setShowSpinner] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setShowSpinner(true)
-      let login_result = await login(email, password);
-      setShowAlert(!login_result)
-      setShowSpinner(false)
-      if (login_result) {
-        // Redirect to another page on successful login
-        navigate('/dashboard');
-      } else {
-        setShowAlert(true)
-      }
-    } catch (error) {
-      setShowAlert(true)
-      console.error('Login failed:', error);
+    setShowSpinner(true)
+    setLoginError(null); 
+
+    const login_result = await login(email, password);
+    if (login_result == true) {
+      // Redirect to another page on successful login
+      navigate('/dashboard');
     }
+    setShowSpinner(false)
   };
 
 
@@ -49,13 +42,18 @@ export default function LoginPage() {
           <div className="mb-3">
             <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
           </div>
-          <div class={`spinner-border login-spinner  ${ShowSpinner ? 'show' : ''}`} role="status">
-            <span class="sr-only">Loading...</span>
+
+          <div className={`spinner-border login-spinner  ${ShowSpinner ? 'show' : ''}`} role="status">
+            <span className="sr-only">Loading...</span>
           </div>
+          
           <button type="submit" className={`btn btn-primary w-100 ${ShowSpinner ? 'd-none' : ''}`}>Login</button>
-          <div className={`alert alert-danger mt-3 ${showAlert ? 'show' : ''}`} role="alert">
-            Something went wrong, try again later!
-          </div>
+          
+          {loginError &&
+            <div className={'alert alert-danger mt-3 show'} role="alert">
+              {loginError}
+            </div>
+          }
 
         </form>
       </div>
