@@ -42,10 +42,7 @@ export const AuthProvider = ({ children }) => {
     setLoginError(null); 
   };
 
-  const isAuthenticated = () => {
-    return localStorage.getItem('token') !== null;
-  };
-  
+
   const value = {
     login,
     logout,
@@ -56,3 +53,7 @@ export const AuthProvider = ({ children }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
+export function isAuthenticated() {
+  return localStorage.getItem('token') !== null;
+}

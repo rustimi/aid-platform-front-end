@@ -1,5 +1,6 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import {isAuthenticated} from './components/AuthContext';
 import HomePage from './pages/HomePage';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
@@ -7,9 +8,20 @@ import LoginPage from './pages/LoginPage';
 // import ActiveRequestsPage from './pages/ActiveRequestsPage';
 // import NewRequestPage from './pages/NewRequestPage';
 // import ChatPage from './pages/ChatPage';
-// import UserInfoPage from './pages/UserInfoPage';
+import UserInfoPage from './pages/UserInfoPage';
 import NotFoundPage from './pages/NotFoundPage';
 // import ProtectedRoute from './components/ProtectedRoute'; // Assuming ProtectedRoute is a component
+
+
+const ProtectedRoute = ({ element: Component }) => {
+  const auth = isAuthenticated();
+  return auth ? Component : <Navigate to="/login" replace />;
+};
+
+const NotIfUserAuthenticatedRoute = ({ element: Component }) => {
+  const auth = isAuthenticated();
+  return !auth ? Component : <Navigate to="/dashboard" replace />;
+};
 
 const router = createBrowserRouter([
   {
@@ -17,8 +29,8 @@ const router = createBrowserRouter([
     element: <HomePage />,
     errorElement: <NotFoundPage />,
     // children: [
-      // { path: 'signup', element: <SignupPage /> },
-      // { path: 'login', element: <LoginPage /> },
+    // { path: 'signup', element: <SignupPage /> },
+    // { path: 'login', element: <LoginPage /> },
     //   { path: 'user-info', element: <UserInfoPage /> },
     //   {
     //     path: 'dashboard',
@@ -38,11 +50,15 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <LoginPage />,
+    element: (<NotIfUserAuthenticatedRoute element={<LoginPage />} />),
   },
   {
     path: '/signup',
-    element: <SignupPage />,
+    element: (<NotIfUserAuthenticatedRoute element={<SignupPage />} />),
+  },
+  {
+    path: '/user',
+    element: (<ProtectedRoute element={<UserInfoPage />} />),
   }
 ]);
 
