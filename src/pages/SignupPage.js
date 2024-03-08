@@ -9,7 +9,7 @@ export default function SignupPage() {
     const [password, setPassword] = useState('');
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
-    const { login, loginError, setLoginError, isAuthenticated } = useAuth();
+    const { login, loginError, setLoginError } = useAuth();
     const navigate = useNavigate();
     const [ShowSpinner, setShowSpinner] = useState(false);
     const [userCreateErrors, setUserCreateErrors] = useState({});
@@ -83,7 +83,7 @@ export default function SignupPage() {
                     <button type="submit" className={`btn btn-primary w-100 ${ShowSpinner ? 'd-none' : ''}`}>Signup</button>
                     <Link to="/login" className="text-dark">Login</Link>
                     {loginError &&
-                        <div className={'alert alert-danger mt-3 show'} role="alert">
+                        <div className={'alert alert-danger mt-3'} role="alert">
                             {loginError}
                         </div>
                     }

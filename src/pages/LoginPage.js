@@ -11,7 +11,6 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("aaa")
     setShowSpinner(true)
     setLoginError(null); 
 
@@ -51,7 +50,7 @@ export default function LoginPage() {
           <button type="submit" className={`btn btn-primary w-100 ${ShowSpinner ? 'd-none' : ''}`}>Login</button>
           <Link to="/signup" className="text-dark">Signup</Link>
           {loginError &&
-            <div className={'alert alert-danger mt-3 show'} role="alert">
+            <div className={'alert alert-danger mt-3'} role="alert">
               {loginError}
             </div>
           }
