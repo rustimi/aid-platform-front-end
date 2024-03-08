@@ -26,11 +26,41 @@
 .logo-img{
     width: 150px;
     height: 150px;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     background-image: url('../public/logo.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+.alert{
+  display: none;
+}
+
+.alert.show{
+  display: block;
+}
+
+.login-spinner{
+  display: none;
+  position: relative;
+  left: 40%;
+}
+.login-spinner.show{
+  display: block;
+}
+
+.pl-2{
+  padding-left: ($spacer * .25) !important;
+}
+
+.pl-3{
+  padding-left: ($spacer * .35) !important;
+}
+
+.requests-count{
+  width: max-content;
+  border-radius: 5px;
 }
