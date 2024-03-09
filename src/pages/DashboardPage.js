@@ -58,18 +58,18 @@ export default function DashboardPage() {
                     console.error('Failed to fetch user info:', error);
                 });
         }
-    }, 800), [map]);
+    }, 200), [map]);
 
     return isLoaded ? (
         <div className="container-fluid bg-dark p-0 m-0 row big-block   ">
             <div className='col-4 d-flex flex-column pt-2'>
-                {requests.map((request) => ( // Step 3: Map over requests to render CardComponent
+                {requests.map((request) => ( // Map over requests to render CardComponent
                     <CardComponent
                         key={request.id}
                         id={request.id}
                         activeId={activeId}
                         type={request.request_type}
-                        title={request.description}
+                        title={request.title}
                         setActiveId={setActiveId}
                     />
                 ))}
@@ -83,8 +83,17 @@ export default function DashboardPage() {
                     onUnmount={onUnmount}
                     onBoundsChanged={fetchRequestsBasedOnBounds}
                 >
-                    <MarkerComponent id={1} activeId={activeId} position={mapCenter} type='material need' setActiveId={setActiveId} />
-                    <MarkerComponent id={2} activeId={activeId} position={{ lat: -3.745, lng: -40.523 }} type='one time task' setActiveId={setActiveId} />
+                    {requests.map((request) => ( // Map over requests to render CardComponent
+                    <MarkerComponent
+                        key={request.id}
+                        id={request.id}
+                        activeId={activeId}
+                        type={request.request_type}
+                        description={request.description} 
+                        setActiveId={setActiveId}
+                        position={{ lat: request.latitude, lng: request.longitude }}
+                    />
+                ))}
                 </GoogleMap>
             </div>
         </div>
