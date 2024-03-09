@@ -10,6 +10,10 @@ export default function UserInfoPage() {
     const [last_name, setLastName] = useState('');
     const [updateStatus, setUpdateStatus] = useState(null);
     const [userUpdateErrors, setUserUpdateErrors] = useState({});
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [userDocumentPicturePath, setUserDocumentPicturePath] = useState(null);
+    const [uploadStatus, setUploadStatus] = useState({});
+
 
     useEffect(() => { // Fetch user info
         setUpdateStatus(null)
@@ -18,22 +22,22 @@ export default function UserInfoPage() {
                 setEmail(response.data.user.email);
                 setFirstName(response.data.user.fname);
                 setLastName(response.data.user.lname);
+                setUserDocumentPicturePath(response.data.user.document_url);
             }).catch(error => {
                 console.error('Failed to fetch user info:', error);
             });
     }, []); // return empy dependency array to run once
 
-    const handleSubmit = async (e) => {
+    const handleSubmitUserInfo = async (e) => {
         e.preventDefault();
         axios.patch(`${API_BASE_URL}/users`, { // Update user
             fname: first_name,
             lname: last_name,
-            email: email,
+            email: email
         })
             .then(response => {
                 if (response.status === 200) {
                     setUpdateStatus(true)
-                    console.log("evviva");
                 }
             })
             .catch(errors => {
@@ -49,6 +53,43 @@ export default function UserInfoPage() {
             })
     };
 
+    const handleFileChange = (event) => {
+        setSelectedFile(event.target.files[0]); // Set the selected file
+    };
+
+    const handleUpload = async () => {
+        if (!selectedFile) return; // Ensure there is a file to upload
+        setUploadStatus({})
+        setUserDocumentPicturePath(null)
+        const formData = new FormData();
+        formData.append('document', selectedFile);
+
+        axios.post(`${API_BASE_URL}/upload`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+            .then(response => {
+                console.log("OK")
+                setUploadStatus({
+                    status: true,
+                    message: 'File uploaded successfully'
+                })
+                axios.get(`${API_BASE_URL}/users`)
+                    .then(response => {
+                        setUserDocumentPicturePath(response.data.user.document_url);
+                    })
+            })
+            .catch(error => {
+                console.log("KO")
+                setUploadStatus({
+                    status: false,
+                    message: 'File upload failed. Please try again later.'
+                })
+            });
+    };
+
+
     return (
         <>
             <div className="logo-img m-sm-auto d-flex justify-content-center">
@@ -61,8 +102,8 @@ export default function UserInfoPage() {
             </div>
             <div className="container-fluid p-0">
                 <div className="row g-0">
-                    <div className="col-12 big-block bg-primary d-flex align-items-center justify-content-center">
-                        <form onSubmit={handleSubmit} className="p-4 bg-white col-11 col-lg-8 text-center" style={{ borderRadius: '5px' }}>
+                    <div className="col-12 big-block bg-primary d-flex flex-column align-items-center justify-content-center">
+                        <form onSubmit={handleSubmitUserInfo} className="p-4 bg-white col-11 col-lg-8 text-center" style={{ borderRadius: '5px' }}>
                             <h1 className="text-center text-primary">Update user info</h1>
                             <div className="mb-3">
                                 <input type="text" className="form-control" value={first_name} onChange={(e) => setFirstName(e.target.value)} placeholder="First name" />
@@ -81,6 +122,24 @@ export default function UserInfoPage() {
                                 Update successful! :)
                             </div>
                         </form>
+                        <div className='mt-2 user-document bg-white col-11 col-lg-8 rounded p-3'>
+                            <div className='d-flex flex-column flex-lg-row justify-content-between mb-2'>
+                                <p>Upload your government issued document</p>
+                                <div className='d-flex flex-column align-items-end'>
+                                    <input type="file" accept="image/*" className='btn btn-primary col-12' onChange={handleFileChange} />
+                                    {selectedFile && (
+                                        <button className='btn btn-secondary mt-1 col-12 col-lg-4 ' onClick={handleUpload}>Upload</button>
+                                    )}
+                                </div>
+                            </div>
+                            {userDocumentPicturePath && (
+                                <Link to={`${API_BASE_URL}${userDocumentPicturePath}`} target="_blank" rel="noreferrer">Download document</Link>
+                            )}
+                            <div className={`mt-2 alert ${uploadStatus.status !== undefined ? (uploadStatus.status ? 'alert-success' : 'alert-danger') : 'd-none'}`} role="alert">
+                                {uploadStatus.message}
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>

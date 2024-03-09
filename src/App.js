@@ -4,6 +4,7 @@ import {isAuthenticated} from './components/AuthContext';
 import HomePage from './pages/HomePage';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
+import LogoutPage from './pages/LogoutPage';
 // import DashboardPage from './pages/DashboardPage';
 // import ActiveRequestsPage from './pages/ActiveRequestsPage';
 // import NewRequestPage from './pages/NewRequestPage';
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
   {
     path: '/signup',
     element: (<NotIfUserAuthenticatedRoute element={<SignupPage />} />),
+  },
+  {
+    path: '/logout',
+    element: (<ProtectedRoute element={<LogoutPage />} />),
   },
   {
     path: '/user',
