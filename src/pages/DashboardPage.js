@@ -1,6 +1,7 @@
 import React from 'react'
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { debounce } from 'lodash';
+import CardComponent from '../components/card';
 
 const mapContainerStyle = {
     width: '100%',
@@ -32,7 +33,7 @@ export default function DashboardPage() {
         setMap(null)
     }, [])
 
-    // Create a debounced function
+    // debounce the function so it only fires after the user stops moving the map
     const fetchRequestsBasedOnBounds = React.useCallback(debounce(() => {
         if (map) {
             const bounds = map.getBounds();
@@ -42,21 +43,29 @@ export default function DashboardPage() {
     }, 800), [map]);
 
     return isLoaded ? (
-        <div className="container-fluid p-0 row big-block">
-            <div className='col-4'>test</div>
-            <div className='col-8 '>
-            <GoogleMap
-                mapContainerStyle={mapContainerStyle}
-                center={mapCenter}
-
-                zoom={10}
-                onLoad={onLoad}
-                onUnmount={onUnmount}
-                onBoundsChanged={fetchRequestsBasedOnBounds}
-            >
-                { /* Child components, such as markers, info windows, etc. */}
-                <></>
-            </GoogleMap>
+        <div className="container-fluid bg-dark p-0 m-0 row big-block   ">
+            <div className='col-4 d-flex flex-column pt-2'>
+                <CardComponent
+                    type='material need'
+                    title='This is the body of the card'
+                />
+                <CardComponent
+                    type='one time task'
+                    title='This is the body of the card'
+                />
+            </div>
+            <div className='col-8 p-2 rounded'>
+                <GoogleMap
+                    mapContainerStyle={mapContainerStyle}
+                    center={mapCenter}
+                    zoom={10}
+                    onLoad={onLoad}
+                    onUnmount={onUnmount}
+                    onBoundsChanged={fetchRequestsBasedOnBounds}
+                >
+                    { /* Child components, such as markers, info windows, etc. */}
+                    <></>
+                </GoogleMap>
             </div>
         </div>
     ) : <></>
