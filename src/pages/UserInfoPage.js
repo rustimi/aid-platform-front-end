@@ -139,6 +139,10 @@ export default function UserInfoPage() {
                             </div>
 
                         </div>
+                        <div className='mt-2 col-8'>
+                            <Link to='/logout' className='btn btn-danger text-light float-end'>Logout</Link>
+
+                        </div>
                     </div>
                 </div>
             </div>
