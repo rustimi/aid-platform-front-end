@@ -53,10 +53,22 @@
   opacity: 0.8;
 }
 
-.dashboard-container > div{
+.dashboard-container > div.col-12{
   min-height: 50vh;
 }
 
+.user-info-float{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-image: url('../public/user.png');
+  width: 70px;
+  height: 70px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 100;
+}
 
 // Styles for mobile view
 @media (max-width: 991.98px) {

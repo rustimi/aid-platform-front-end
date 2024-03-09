@@ -5,6 +5,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '../components/config';
 import CardComponent from '../components/card';
 import MarkerComponent from '../components/marker';
+import { Link } from 'react-router-dom';
 
 const mapContainerStyle = {
     width: '100%',
@@ -61,6 +62,7 @@ export default function DashboardPage() {
 
     return isLoaded ? (
         <div className="container-fluid dashboard-container bg-dark p-0 m-0 row big-block   ">
+            <Link to='/user'  className='user-info-float'></Link>
             <div className='col-12 col-lg-4 d-flex flex-column pt-2 requests-container'>
                 {requests.map((request) => ( // Map over requests to render CardComponent
                     <CardComponent
