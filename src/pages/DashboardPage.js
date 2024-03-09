@@ -9,11 +9,6 @@ const mapContainerStyle = {
     height: '100%'
 };
 
-const mapCenter = {
-    lat: -3.745,
-    lng: -38.523
-};
-
 export default function DashboardPage() {
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -22,10 +17,23 @@ export default function DashboardPage() {
 
     const [map, setMap] = useState(null)
     const [activeId, setActiveId] = useState(null);
+    const [mapCenter, setMapCenter] = useState({lat: 0, lng: 0}); 
+
+    useEffect(() => { // Get the user's location and set the map center to it
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    setMapCenter({
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    });
+                }
+            );
+        } 
+    }, []);
 
     const onLoad = React.useCallback(function callback(map) {
-        // This is just an example of getting and using the map instance!!! don't just blindly copy!
-        const bounds = new window.google.maps.LatLngBounds(mapCenter);
+        // const bounds = new window.google.maps.LatLngBounds(mapCenter);
         // map.fitBounds(bounds);
 
         setMap(map)
@@ -40,7 +48,6 @@ export default function DashboardPage() {
         if (map) {
             const bounds = map.getBounds();
             console.log('Fetching something based on these bounds:', bounds.toString());
-            setActiveId(null)
             // Your API call logic here
         }
     }, 800), [map]);
@@ -53,27 +60,27 @@ export default function DashboardPage() {
                     activeId={activeId}
                     type='material need'
                     title='This is the body of the card'
-                    onClick={() => setActiveId(1)}
+                    setActiveId={setActiveId}
                 />
                 <CardComponent
                     id={2}
                     activeId={activeId}
                     type='one time task'
                     title='This is the body of the card'
-                    onClick={() => setActiveId(2)}
+                    setActiveId={setActiveId}
                 />
             </div>
-            <div className='col-8 p-2 rounded'>
+            <div className='col-8 p-2'>
                 <GoogleMap
                     mapContainerStyle={mapContainerStyle}
                     center={mapCenter}
-                    zoom={6}
+                    zoom={9}
                     onLoad={onLoad}
                     onUnmount={onUnmount}
                     onBoundsChanged={fetchRequestsBasedOnBounds}
                 >
-                    <MarkerComponent id={1} activeId={activeId} position={mapCenter} type='material need' onClick={() => setActiveId(1)} />
-                    <MarkerComponent id={2} activeId={activeId} position={{ lat: -3.745, lng: -40.523 }} type='one time task' onClick={() => setActiveId(2)} />
+                    <MarkerComponent id={1} activeId={activeId} position={mapCenter} type='material need' setActiveId={setActiveId} />
+                    <MarkerComponent id={2} activeId={activeId} position={{ lat: -3.745, lng: -40.523 }} type='one time task' setActiveId={setActiveId} />
                 </GoogleMap>
             </div>
         </div>
