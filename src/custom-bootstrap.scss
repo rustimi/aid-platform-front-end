@@ -32,8 +32,11 @@
   position: relative;
   left: 40%;
 }
-.login-spinner.show{
+.login-spinner.show, .user-upload-spinner.show{
   display: block;
+}
+.user-upload-spinner{
+  display: none;
 }
 
 .pl-2{
@@ -73,8 +76,15 @@
 .bg-selected{
   background-color: #66acf2 !important;
 }
+
+
 // Styles for mobile view
 @media (max-width: 991.98px) {
+  .logo-img{
+    width: 100px;
+    height: 100px;
+  }
+
   .big-block.bg-image {
     // Hide the second block in mobile view
     height: 50vh;

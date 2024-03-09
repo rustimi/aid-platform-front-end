@@ -12,6 +12,7 @@ export default function UserInfoPage() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [userDocumentPicturePath, setUserDocumentPicturePath] = useState(null);
     const [uploadStatus, setUploadStatus] = useState({});
+    const [ShowSpinner, setShowSpinner] = useState(false);
 
 
     useEffect(() => { // Fetch user info
@@ -59,6 +60,7 @@ export default function UserInfoPage() {
     const handleUpload = async () => {
         if (!selectedFile) return; // Ensure there is a file to upload
         setUploadStatus({})
+        setShowSpinner(true)
         setUserDocumentPicturePath(null)
         const formData = new FormData();
         formData.append('document', selectedFile);
@@ -69,7 +71,7 @@ export default function UserInfoPage() {
             },
         })
             .then(response => {
-                console.log("OK")
+                setShowSpinner(false)
                 setUploadStatus({
                     status: true,
                     message: 'File uploaded successfully'
@@ -80,6 +82,7 @@ export default function UserInfoPage() {
                     })
             })
             .catch(error => {
+                setShowSpinner(false)
                 console.log("KO")
                 setUploadStatus({
                     status: false,
@@ -126,9 +129,10 @@ export default function UserInfoPage() {
                                 <p>Upload your government issued document</p>
                                 <div className='d-flex flex-column align-items-end'>
                                     <input type="file" accept="image/*" className='btn btn-primary col-12' onChange={handleFileChange} />
-                                    {selectedFile && (
+                                    {selectedFile && !ShowSpinner && (
                                         <button className='btn btn-secondary mt-1 col-12 col-lg-4 ' onClick={handleUpload}>Upload</button>
                                     )}
+                                    <div className={`spinner-border user-upload-spinner  ${ShowSpinner ? 'show' : ''}`} role="status"></div>
                                 </div>
                             </div>
                             {userDocumentPicturePath && (
