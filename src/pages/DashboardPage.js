@@ -40,6 +40,7 @@ export default function DashboardPage() {
         if (map) {
             const bounds = map.getBounds();
             console.log('Fetching something based on these bounds:', bounds.toString());
+            setActiveId(null)
             // Your API call logic here
         }
     }, 800), [map]);
@@ -52,12 +53,14 @@ export default function DashboardPage() {
                     activeId={activeId}
                     type='material need'
                     title='This is the body of the card'
+                    onClick={() => setActiveId(1)}
                 />
                 <CardComponent
                     id={2}
                     activeId={activeId}
                     type='one time task'
                     title='This is the body of the card'
+                    onClick={() => setActiveId(2)}
                 />
             </div>
             <div className='col-8 p-2 rounded'>
