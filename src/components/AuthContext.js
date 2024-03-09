@@ -37,6 +37,9 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('lat');
+    localStorage.removeItem('lng');
+    localStorage.removeItem('zoom');
     axios.defaults.headers.common['Authorization'] = null
     setLoginError(null); 
   };

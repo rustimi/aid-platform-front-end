@@ -5,7 +5,7 @@ import HomePage from './pages/HomePage';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import LogoutPage from './pages/LogoutPage';
-// import DashboardPage from './pages/DashboardPage';
+import DashboardPage from './pages/DashboardPage';
 // import ActiveRequestsPage from './pages/ActiveRequestsPage';
 // import NewRequestPage from './pages/NewRequestPage';
 // import ChatPage from './pages/ChatPage';
@@ -60,6 +60,10 @@ const router = createBrowserRouter([
   {
     path: '/logout',
     element: (<ProtectedRoute element={<LogoutPage />} />),
+  },
+  {
+    path: '/dashboard',
+    element: (<ProtectedRoute element={<DashboardPage />} />),
   },
   {
     path: '/user',

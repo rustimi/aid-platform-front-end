@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../components/AuthContext';
+import { Link } from 'react-router-dom';
 import { API_BASE_URL } from '../components/config';
 import axios from 'axios';
 
@@ -138,6 +137,10 @@ export default function UserInfoPage() {
                             <div className={`mt-2 alert ${uploadStatus.status !== undefined ? (uploadStatus.status ? 'alert-success' : 'alert-danger') : 'd-none'}`} role="alert">
                                 {uploadStatus.message}
                             </div>
+
+                        </div>
+                        <div className='mt-2 col-8'>
+                            <Link to='/logout' className='btn btn-danger text-light float-end'>Logout</Link>
 
                         </div>
                     </div>
