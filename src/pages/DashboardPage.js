@@ -78,6 +78,10 @@ export default function DashboardPage() {
                     <Marker
                         position={position}
                         onClick={onMarkerClick} // Set the click handler
+                        icon={{
+                            url: "/map-pin-svgrepo-com-primary.svg", // URL to a custom marker image
+                            scaledSize: new window.google.maps.Size(40, 40),
+                          }}
                     />
 
                     {showInfoWindow && (
