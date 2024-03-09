@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../components/AuthContext';
+import { Link } from 'react-router-dom';
 import { API_BASE_URL } from '../components/config';
 import axios from 'axios';
 
