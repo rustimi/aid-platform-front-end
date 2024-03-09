@@ -1,35 +1,66 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react'
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import { debounce } from 'lodash';
+
+const mapContainerStyle = {
+    width: '100%',
+    height: '100%'
+};
+
+const mapCenter = {
+    lat: -3.745,
+    lng: -38.523
+};
 
 export default function DashboardPage() {
-    const mapRef = useRef(null); // Use a ref to refer to the map DOM element
+    const { isLoaded } = useJsApiLoader({
+        id: 'google-map-script',
+        googleMapsApiKey: "AIzaSyDcBfcLxJIXSvH2fZmYHrSTqS8w2E3-ywo"
+    })
 
-    useEffect(() => {
-        // Function to load the Google Maps script
-        const loadGoogleMapsScript = (callback) => {
-            const script = document.createElement('script');
-            script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDcBfcLxJIXSvH2fZmYHrSTqS8w2E3-ywo&callback=${callback}`;
-            script.async = true;
-            script.defer = true;
-            document.head.appendChild(script);
-        };
+    const [map, setMap] = React.useState(null)
 
-        // Callback function to initialize the map
-        window.initMap = () => {
-            const position = {lat: 40.0187488, lng: -105.2607357};
-            new google.maps.Map(mapRef.current, {
-                zoom: 12,
-                center: position,
-            });
-        };
+    const onLoad = React.useCallback(function callback(map) {
+        // This is just an example of getting and using the map instance!!! don't just blindly copy!
+        const bounds = new window.google.maps.LatLngBounds(mapCenter);
+        map.fitBounds(bounds);
 
-        loadGoogleMapsScript('initMap');
-    }, []); // Empty dependency array to run once on mount
+        setMap(map)
+    }, [])
 
-    return (
-        <div>
-            <h1>Dashboard!</h1>
-            <p>Welcome to the dashboard</p>
-            <div id="map" ref={mapRef} className="mb-5" style={{ height: '500px' }}></div>
+    const onUnmount = React.useCallback(function callback(map) {
+        setMap(null)
+    }, [])
+
+    // Create a debounced function
+    const fetchRequestsBasedOnBounds = React.useCallback(debounce(() => {
+        if (map) {
+            const bounds = map.getBounds();
+            console.log('Fetching something based on these bounds:', bounds.toString());
+            // Your API call logic here
+        }
+    }, 800), [map]);
+
+    return isLoaded ? (
+        <div className="container-fluid p-0 row big-block">
+            <div className='col-4'>test</div>
+            <div className='col-8 '>
+            <GoogleMap
+                mapContainerStyle={mapContainerStyle}
+                center={mapCenter}
+
+                zoom={10}
+                onLoad={onLoad}
+                onUnmount={onUnmount}
+                onBoundsChanged={fetchRequestsBasedOnBounds}
+            >
+                { /* Child components, such as markers, info windows, etc. */}
+                <></>
+            </GoogleMap>
+            </div>
         </div>
-    );
+    ) : <></>
 }
+
+
+
