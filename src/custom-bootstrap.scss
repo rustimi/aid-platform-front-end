@@ -5,7 +5,7 @@
 @import '~bootstrap/scss/bootstrap';
 
 .big-block{
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .homepage .bg-image{
@@ -14,14 +14,6 @@
     background-position: center;
     background-repeat: no-repeat;
 }
-
-// Styles for mobile view
-@media (max-width: 991.98px) {
-    .big-block.bg-image {
-      // Hide the second block in mobile view
-      height: 50vh;
-    }
-  }
 
 .logo-img{
     width: 150px;
@@ -59,4 +51,24 @@
 .request.card:hover{
   cursor: pointer;
   opacity: 0.8;
+}
+
+.dashboard-container > div{
+  min-height: 50vh;
+}
+
+
+// Styles for mobile view
+@media (max-width: 991.98px) {
+  .big-block.bg-image {
+    // Hide the second block in mobile view
+    height: 50vh;
+  }
+
+  .dashboard-container > div{
+    max-height: 50vh;
+  }
+  .dashboard-container .requests-container{
+    overflow: auto;
+  }
 }

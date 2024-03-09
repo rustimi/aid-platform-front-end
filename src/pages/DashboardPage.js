@@ -50,7 +50,6 @@ export default function DashboardPage() {
             const ne = bounds.getNorthEast();
             const sw = bounds.getSouthWest();
             const query = `ne_latitude=${encodeURIComponent(ne.lat())}&ne_longitude=${encodeURIComponent(ne.lng())}&sw_latitude=${encodeURIComponent(sw.lat())}&sw_longitude=${encodeURIComponent(sw.lng())}`;
-            console.log(query)
             axios.get(`${API_BASE_URL}/requests?${query}`)
                 .then(response => {
                     setRequests(response.data.requests);
@@ -61,8 +60,8 @@ export default function DashboardPage() {
     }, 200), [map]);
 
     return isLoaded ? (
-        <div className="container-fluid bg-dark p-0 m-0 row big-block   ">
-            <div className='col-4 d-flex flex-column pt-2'>
+        <div className="container-fluid dashboard-container bg-dark p-0 m-0 row big-block   ">
+            <div className='col-12 col-lg-4 d-flex flex-column pt-2 requests-container'>
                 {requests.map((request) => ( // Map over requests to render CardComponent
                     <CardComponent
                         key={request.id}
@@ -74,7 +73,7 @@ export default function DashboardPage() {
                     />
                 ))}
             </div>
-            <div className='col-8 p-2'>
+            <div className='col-12 col-lg-8 p-2'>
                 <GoogleMap
                     mapContainerStyle={mapContainerStyle}
                     center={mapCenter}
@@ -89,6 +88,7 @@ export default function DashboardPage() {
                         id={request.id}
                         activeId={activeId}
                         type={request.request_type}
+                        title={request.title}
                         description={request.description} 
                         setActiveId={setActiveId}
                         position={{ lat: request.latitude, lng: request.longitude }}

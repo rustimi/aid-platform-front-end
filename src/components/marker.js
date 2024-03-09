@@ -1,7 +1,7 @@
 import React from 'react';
 import { Marker, InfoWindow } from '@react-google-maps/api';
 
-export default function MarkerComponent({ id, activeId, position, type, description, setActiveId }) {
+export default function MarkerComponent({ id, activeId, position, type, title, description, setActiveId }) {
     
     if (!position || !type) return null;
     const icon_url = type.toLowerCase() === 'material need' ? '/map-pin-svgrepo-com-secondary.svg' : '/map-pin-svgrepo-com-primary.svg';
@@ -23,7 +23,7 @@ export default function MarkerComponent({ id, activeId, position, type, descript
                     onCloseClick={() => setActiveId(null)}
                 >
                     <div>
-                        <h4>{type}</h4>
+                        <h4>{title}</h4>
                         <p>{description}</p>
                     </div>
                 </InfoWindow>
