@@ -20,8 +20,7 @@ export const AuthProvider = ({ children }) => {
   
       if (response.status === 200) {
         localStorage.setItem('token', response.headers.authorization);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${response.headers.authorization}`;
-        return true; // Login successful
+        return isAuthenticated(); 
       }
     } catch (error) {
       let errorMessage = ''    
@@ -42,10 +41,7 @@ export const AuthProvider = ({ children }) => {
     setLoginError(null); 
   };
 
-  const isAuthenticated = () => {
-    return localStorage.getItem('token') !== null;
-  };
-  
+
   const value = {
     login,
     logout,
@@ -56,3 +52,12 @@ export const AuthProvider = ({ children }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
+export function isAuthenticated() {
+  const token = localStorage.getItem('token');
+  if (token !== null){
+    axios.defaults.headers.common['Authorization'] = token;
+    return true;
+  }
+  return false;
+}
