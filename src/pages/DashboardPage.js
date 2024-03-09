@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
-import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api';
+import React, { useState, useEffect } from 'react'
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { debounce } from 'lodash';
 import CardComponent from '../components/card';
+import MarkerComponent from '../components/marker';
 
 const mapContainerStyle = {
     width: '100%',
@@ -20,12 +21,12 @@ export default function DashboardPage() {
     })
 
     const [map, setMap] = useState(null)
-    const [showInfoWindow, setShowInfoWindow] = useState(false);
+    const [activeId, setActiveId] = useState(null);
 
     const onLoad = React.useCallback(function callback(map) {
         // This is just an example of getting and using the map instance!!! don't just blindly copy!
         const bounds = new window.google.maps.LatLngBounds(mapCenter);
-        map.fitBounds(bounds);
+        // map.fitBounds(bounds);
 
         setMap(map)
     }, [])
@@ -36,7 +37,6 @@ export default function DashboardPage() {
 
     // debounce the function so it only fires after the user stops moving the map
     const fetchRequestsBasedOnBounds = React.useCallback(debounce(() => {
-        setShowInfoWindow(false)
         if (map) {
             const bounds = map.getBounds();
             console.log('Fetching something based on these bounds:', bounds.toString());
@@ -44,24 +44,18 @@ export default function DashboardPage() {
         }
     }, 800), [map]);
 
-    const position = {
-        lat: -3.745,
-        lng: -38.523
-    }
-
-    const onMarkerClick = () => {
-        setShowInfoWindow(true);
-    };
-
-
     return isLoaded ? (
         <div className="container-fluid bg-dark p-0 m-0 row big-block   ">
             <div className='col-4 d-flex flex-column pt-2'>
                 <CardComponent
+                    id={1}
+                    activeId={activeId}
                     type='material need'
                     title='This is the body of the card'
                 />
                 <CardComponent
+                    id={2}
+                    activeId={activeId}
                     type='one time task'
                     title='This is the body of the card'
                 />
@@ -70,32 +64,13 @@ export default function DashboardPage() {
                 <GoogleMap
                     mapContainerStyle={mapContainerStyle}
                     center={mapCenter}
-                    zoom={10}
+                    zoom={6}
                     onLoad={onLoad}
                     onUnmount={onUnmount}
                     onBoundsChanged={fetchRequestsBasedOnBounds}
                 >
-                    <Marker
-                        position={position}
-                        onClick={onMarkerClick} // Set the click handler
-                        icon={{
-                            url: "/map-pin-svgrepo-com-primary.svg", // URL to a custom marker image
-                            scaledSize: new window.google.maps.Size(40, 40),
-                          }}
-                    />
-
-                    {showInfoWindow && (
-                        <InfoWindow
-                            position={position}
-                            onCloseClick={() => setShowInfoWindow(false)} // Close the InfoWindow when its close button is clicked
-                        >
-                            <div>
-                                <h3>Marker Info</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu turpis hendrerit, placerat ipsum at, vulputate purus. Fusce euismod ut mauris in suscipit. Nam varius neque a magna fringilla finibus nec et neque. Curabitur vel egestas est, vitae gravida eros. Quisque semper mattis ex, id malesuada</p>
-                            </div>
-                        </InfoWindow>
-                    )}
-
+                    <MarkerComponent id={1} activeId={activeId} position={mapCenter} type='material need' onClick={() => setActiveId(1)} />
+                    <MarkerComponent id={2} activeId={activeId} position={{ lat: -3.745, lng: -40.523 }} type='one time task' onClick={() => setActiveId(2)} />
                 </GoogleMap>
             </div>
         </div>
