@@ -20,11 +20,18 @@ export default function DashboardPage() {
 
     const [map, setMap] = useState(null)
     const [activeId, setActiveId] = useState(null);
+    const [mapZoom, setMapZoom] = useState(9);
     const [mapCenter, setMapCenter] = useState({ lat: 0, lng: 0 });
     const [requests, setRequests] = useState([]);
 
     useEffect(() => { // Get the user's location and set the map center to it
-        if ("geolocation" in navigator) {
+        if (localStorage.getItem('lat') && localStorage.getItem('lng')) {
+            setMapCenter({
+                lat: Number(localStorage.getItem('lat')),
+                lng: Number(localStorage.getItem('lng'))
+            });
+            setMapZoom(Number(localStorage.getItem('zoom')));
+        } else if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     setMapCenter({
@@ -57,13 +64,19 @@ export default function DashboardPage() {
                 }).catch(error => {
                     console.error('Failed to fetch user info:', error);
                 });
+
+            const center = bounds.getCenter()
+            localStorage.setItem('lat', center.lat());
+            localStorage.setItem('lng', center.lng());
+            localStorage.setItem('zoom', map.getZoom());
         }
     }, 200), [map]);
 
     return isLoaded ? (
         <div className="container-fluid dashboard-container bg-dark p-0 m-0 row big-block   ">
-            <Link to='/user'  className='user-info-float'></Link>
+            <Link to='/user' className='user-info-float'></Link>
             <div className='col-12 col-lg-4 d-flex flex-column pt-2 requests-container'>
+                <h1 className='text-light border-bottom'>Active requests:</h1>
                 {requests.map((request) => ( // Map over requests to render CardComponent
                     <CardComponent
                         key={request.id}
@@ -79,23 +92,23 @@ export default function DashboardPage() {
                 <GoogleMap
                     mapContainerStyle={mapContainerStyle}
                     center={mapCenter}
-                    zoom={9}
+                    zoom={mapZoom}
                     onLoad={onLoad}
                     onUnmount={onUnmount}
                     onBoundsChanged={fetchRequestsBasedOnBounds}
                 >
                     {requests.map((request) => ( // Map over requests to render CardComponent
-                    <MarkerComponent
-                        key={request.id}
-                        id={request.id}
-                        activeId={activeId}
-                        type={request.request_type}
-                        title={request.title}
-                        description={request.description} 
-                        setActiveId={setActiveId}
-                        position={{ lat: request.latitude, lng: request.longitude }}
-                    />
-                ))}
+                        <MarkerComponent
+                            key={request.id}
+                            id={request.id}
+                            activeId={activeId}
+                            type={request.request_type}
+                            title={request.title}
+                            description={request.description}
+                            setActiveId={setActiveId}
+                            position={{ lat: request.latitude, lng: request.longitude }}
+                        />
+                    ))}
                 </GoogleMap>
             </div>
         </div>
