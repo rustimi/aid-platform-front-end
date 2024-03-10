@@ -21,7 +21,7 @@ export default function DashboardPage() {
     const [map, setMap] = useState(null)
     const [activeId, setActiveId] = useState(null);
     const [mapZoom, setMapZoom] = useState(9);
-    const [mapCenter, setMapCenter] = useState({ lat: 0, lng: 0 });
+    const [mapCenter, setMapCenter] = useState({ lat: 51.5287398, lng: -0.2664032 }); // default to London
     const [requests, setRequests] = useState([]);
 
     useEffect(() => { // Get the user's location and set the map center to it
