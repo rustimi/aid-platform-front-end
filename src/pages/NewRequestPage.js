@@ -50,10 +50,11 @@ export default function NewRequestPage() {
                 }
             })
             .catch(errors => {
+                console.log(errors)
                 let objUserCreateErrors = {};
 
                 // Format error messages
-                errors.response.data.errors.forEach(error => {
+                errors.response.data.forEach(error => {
                     let split = error.split(" ") // Error message format: "Email has invalid format"
                     objUserCreateErrors[split[0].toLowerCase()] = split.slice(1).join(" ")
                 })
@@ -88,6 +89,7 @@ export default function NewRequestPage() {
                                     className="form-control mb-2"
                                 />
                             </Autocomplete>
+                            {(newRequestErrors.latitude && newRequestErrors.longitude) && <><div className="pl-3 text-danger">{newRequestErrors.latitude}</div><div className="pl-3 text-danger">{newRequestErrors.longitude}</div></>}
                             <div className="request-type btn-group btn-group-toggle mb-2">
                                 <label className={`btn btn-primary ${type === 'Material need' ? 'btn-warning active' : 'btn-primary'}`}>
                                     <input
