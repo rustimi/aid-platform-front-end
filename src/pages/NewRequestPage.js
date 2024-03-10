@@ -1,16 +1,39 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../components/config';
-import { GoogleMap, useJsApiLoader, Autocomplete } from '@react-google-maps/api';
-
+import { Autocomplete, useLoadScript } from '@react-google-maps/api';
+const placesLibrary = ["places"];
 
 export default function NewRequestPage() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [coordinates, setCoordinates] = useState({lat: 0, lng: 0});
+    const [coordinates, setCoordinates] = useState({ lat: 0, lng: 0 });
     const [type, setType] = useState('One time task');
     const [createStatus, setCreateStatus] = useState(null);
     const [newRequestErrors, setNewRequestErrors] = useState({});
+    const [searchResult, setSearchResult] = useState("Result: none");
+
+    const { isLoaded } = useLoadScript({
+        googleMapsApiKey: "AIzaSyDcBfcLxJIXSvH2fZmYHrSTqS8w2E3-ywo",
+        libraries: placesLibrary
+    });
+
+    function onLoad(autocomplete) {
+        setSearchResult(autocomplete);
+    }
+
+    function onPlaceChanged() {
+        if (searchResult != null) {
+            const place = searchResult.getPlace();  
+            setCoordinates({
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng()
+            });
+        } else {
+            alert("Please enter text");
+        }
+    }
 
     const handleSubmitNewRequest = async (e) => {
         e.preventDefault();
@@ -22,7 +45,7 @@ export default function NewRequestPage() {
             longitude: coordinates.lng
         })
             .then(response => {
-                if (response.status === 200) {
+                if (response.status === 201) {
                     setCreateStatus(true)
                 }
             })
@@ -40,11 +63,14 @@ export default function NewRequestPage() {
     };
 
 
-    return (
+    return isLoaded ? (
         <>
             <div className="container-fluid p-0">
                 <div className="row g-0">
                     <div className="col-12 big-block bg-primary d-flex flex-column align-items-center justify-content-center">
+                        <div className='col-11 col-lg-8 mb-2'>
+                            <Link to="/requests" className="btn btn-warning btn-sm float-start ">Back</Link>
+                        </div>
                         <form onSubmit={handleSubmitNewRequest} className="p-4 bg-white col-11 col-lg-8 text-center" style={{ borderRadius: '5px' }}>
                             <h1 className="text-center text-primary">Create a new request!</h1>
                             <div className="mb-3">
@@ -55,6 +81,13 @@ export default function NewRequestPage() {
                                 <textarea type="textarea" className="form-control" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
                                 {newRequestErrors.description && <div className="pl-3 text-danger">{newRequestErrors.description}</div>}
                             </div>
+                            <Autocomplete onPlaceChanged={onPlaceChanged} onLoad={onLoad}>
+                                <input
+                                    type="text"
+                                    placeholder="Search for a place"
+                                    className="form-control mb-2"
+                                />
+                            </Autocomplete>
                             <div className="request-type btn-group btn-group-toggle mb-2">
                                 <label className={`btn btn-primary ${type === 'Material need' ? 'btn-warning active' : 'btn-primary'}`}>
                                     <input
@@ -89,5 +122,5 @@ export default function NewRequestPage() {
                 </div>
             </div>
         </>
-    )
+    ) : <></>
 }
