@@ -91,7 +91,7 @@ export default function DashboardPage() {
                 <div className='filter-requests row border-top m-auto'>
                     <button onClick={handleActiveClick} className={`btn ${isRepublishable ? 'btn-outline-warning' : 'btn-warning'} w-auto m-1 mt-2 mb-2`}>Active requests</button>
                     <button onClick={handleRepublishableClick} className={`btn ${isRepublishable ? 'btn-warning' : 'btn-outline-warning'} w-auto m-1 mt-2 mb-2`}>Republishable</button>
-                    <div class="form-check form-switch">
+                    <div className="form-check form-switch">
                         <input type="checkbox" className="form-check-input bg-warning" id="customSwitch1" onClick={handleShowFulfilledClick} />
                         <label className="form-check-label text-light" htmlFor="customSwitch1">Show fulfilled</label>
                     </div>
