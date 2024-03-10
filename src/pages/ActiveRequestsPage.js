@@ -3,14 +3,17 @@ import axios from 'axios';
 import { API_BASE_URL } from '../components/config';
 import RequestComponent from '../components/request';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { set } from 'lodash';
 
 export default function DashboardPage() {
     const [requests, setRequests] = useState([]);
     const [isRepublishable, SetIsRepublishable] = useState(false);
+    const [showError, setShowError] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
 
     const loadRequests = () => {
+        setShowError(false);
         setRequests([]);
         const searchParams = new URLSearchParams(location.search);
         const isRepublishable = searchParams.get("republishable");
@@ -19,14 +22,14 @@ export default function DashboardPage() {
         if (isRepublishable) {
             SetIsRepublishable(true)
             apiUrl += "?republishable=1";
-        }else{
+        } else {
             SetIsRepublishable(false)
         }
         axios.get(`${apiUrl}`)
             .then(response => {
                 setRequests(response.data.requests)
             }).catch(error => {
-                console.log(error)
+                setShowError(true);
             });
     }
 
@@ -43,26 +46,31 @@ export default function DashboardPage() {
     };
 
     const handleRepublishClick = (id) => {
+        setShowError(false);
         axios.post(`${API_BASE_URL}/users/requests/${id}/republish`)
             .then(response => {
                 loadRequests();
             }).catch(error => {
-                console.log(error)
+                setShowError(true);
             });
     }
 
     const handleFulfillClick = (id) => { // Mark request as fulfilled
+        setShowError(false);
         axios.post(`${API_BASE_URL}/users/requests/${id}/fulfill`)
             .then(response => {
                 loadRequests();
             }).catch(error => {
-                console.log(error)
+                setShowError(true);
             });
     }
 
     return (<>
         <div className="container-fluid requests-container bg-primary-subtle p-0 m-0 justify-content-center row big-block   ">
             <div className='col-12 col-lg-11 bg-primary p-2 p-lg-5 pt-lg-0 mt-3 mb-3 shadow rounded'>
+                <div className={`alert alert-danger mt-3 ${showError ? 'd-block' : 'd-none'}`}>
+                    <strong>Oh snap!</strong> There has been an error. Please try again later!
+                </div>
                 <div className='requests-navigation position-relative'>
                     <div className="logo-img logo-img-sm d-flex justify-content-center">
                         <Link to="/dashboard" className="position-absolute bottom-0 btn btn-sm text-light">
@@ -75,8 +83,8 @@ export default function DashboardPage() {
                 </div>
                 <h1 className='text-light pb-2'>Active Requests</h1>
                 <div className='filter-requests row border-top m-auto'>
-                    <button onClick={handleActiveClick} className={`btn ${isRepublishable ? 'btn-outline-warning': 'btn-warning' } w-auto m-1 mt-2 mb-2`}>Active requests</button>
-                    <button onClick={handleRepublishableClick} className={`btn ${isRepublishable ? 'btn-warning': 'btn-outline-warning' } w-auto m-1 mt-2 mb-2`}>Republishable</button>
+                    <button onClick={handleActiveClick} className={`btn ${isRepublishable ? 'btn-outline-warning' : 'btn-warning'} w-auto m-1 mt-2 mb-2`}>Active requests</button>
+                    <button onClick={handleRepublishableClick} className={`btn ${isRepublishable ? 'btn-warning' : 'btn-outline-warning'} w-auto m-1 mt-2 mb-2`}>Republishable</button>
                 </div>
                 <div className="new-request-contaienr d-flex justify-content-end">
                     <Link to="/new-request" className="btn btn-warning btn-lg w-auto shadow">New Request
@@ -87,6 +95,9 @@ export default function DashboardPage() {
                         </svg></Link>
                 </div>
                 <div className='request-cards-container mt-3 shadow'>
+                    <div className={`alert alert-info ${requests.length === 0 ? 'd-block' : 'd-none'}`}>
+                        <strong>Oops, no requests foud!</strong> <Link to="/new-request">Create a new request!</Link>
+                    </div>
                     {requests.map((request) => ( // Map over requests to render CardComponent
                         <RequestComponent
                             key={request.id}
