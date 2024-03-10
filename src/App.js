@@ -7,7 +7,7 @@ import LoginPage from './pages/LoginPage';
 import LogoutPage from './pages/LogoutPage';
 import DashboardPage from './pages/DashboardPage';
 import ActiveRequestsPage from './pages/ActiveRequestsPage';
-// import NewRequestPage from './pages/NewRequestPage';
+import NewRequestPage from './pages/NewRequestPage';
 // import ChatPage from './pages/ChatPage';
 import UserInfoPage from './pages/UserInfoPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -53,7 +53,12 @@ const router = createBrowserRouter([
   {
     path: '/requests',
     element: (<ProtectedRoute element={<ActiveRequestsPage />} />),
-  }  
+  },
+  {
+    path: '/requests/new',
+    element: (<ProtectedRoute element={<NewRequestPage />} />),
+  }
+
 ]);
 
 function App() {
