@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
-import { debounce } from 'lodash';
 import axios from 'axios';
 import { API_BASE_URL } from '../components/config';
-import CardComponent from '../components/card';
+import BigCardComponent from '../components/bigCard';
 import MarkerComponent from '../components/marker';
 import { Link } from 'react-router-dom';
 
@@ -38,18 +36,10 @@ export default function DashboardPage() {
                         </svg></Link>
                 </div>
                 <div className='request-cards-container mt-3 shadow'>
-                    <div className={`request card text-white mb-3 bg-secondary`}>
-                        <div className="card-header">
-                            <p className='d-inline-block'>One time request</p>
-                            <span className='float-end badge badge-pill bg-custom'>Request</span>
-                        </div>
-                        <div className="card-body">
-                            <h5 className="card-title">Title</h5>
-                            <p className='card-text'>TEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEXT</p>
-                            <Link to={`/requests`} className="float-start">Mark as complete</Link>
-                            <Link to={`/requests}`} className="btn btn-primary float-end shadow">Chat</Link>
-                        </div>
-                    </div>
+                    <BigCardComponent  id={1} type="Material need" title="This is title" body="This is body" isVoluteer={true} />
+                    <BigCardComponent  id={2} type="Material need" title="This is title2" body="This is body2" isVoluteer={false} />
+                    <BigCardComponent  id={3} type="One time task" title="This is title3" body="This is body3" isVoluteer={false} />
+                    
                 </div>
             </div>
         </div>
