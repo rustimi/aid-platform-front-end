@@ -26,6 +26,10 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+.logo-img-sm{
+  width: 105px;
+  height: 105px;
+}
 
 .login-spinner{
   display: none;
@@ -46,7 +50,9 @@
 .pl-3{
   padding-left: ($spacer * .35) !important;
 }
-
+.requests-navigation{
+  height: 110px;
+}
 .requests-count{
   width: max-content;
   border-radius: 5px;
