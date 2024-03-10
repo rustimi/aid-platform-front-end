@@ -76,7 +76,7 @@ export default function DashboardPage() {
         <div className="container-fluid dashboard-container bg-primary-dark p-0 m-0 row big-block   ">
             <Link to='/user' className='user-info-float'></Link>
             <div className='col-12 col-lg-4 d-flex flex-column pt-2 requests-container'>
-                <Link to='/requests' className='btn bg-selected text-dark btn-lg mb-3'>See your requests 
+                <Link to='/requests' className='btn bg-warning text-dark btn-lg mb-3'>See your requests 
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M4 4V20M8 12H20M20 12L16 8M20 12L16 16" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>

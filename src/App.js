@@ -6,7 +6,7 @@ import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import LogoutPage from './pages/LogoutPage';
 import DashboardPage from './pages/DashboardPage';
-// import ActiveRequestsPage from './pages/ActiveRequestsPage';
+import ActiveRequestsPage from './pages/ActiveRequestsPage';
 // import NewRequestPage from './pages/NewRequestPage';
 // import ChatPage from './pages/ChatPage';
 import UserInfoPage from './pages/UserInfoPage';
@@ -29,25 +29,6 @@ const router = createBrowserRouter([
     path: '/',
     element: <HomePage />,
     errorElement: <NotFoundPage />,
-    // children: [
-    // { path: 'signup', element: <SignupPage /> },
-    // { path: 'login', element: <LoginPage /> },
-    //   { path: 'user-info', element: <UserInfoPage /> },
-    //   {
-    //     path: 'dashboard',
-    //     element: (
-    //       <ProtectedRoute>
-    //         <DashboardPage />
-    //       </ProtectedRoute>
-    //     ),
-    //     children: [
-    //       { path: 'active-requests', element: <ActiveRequestsPage /> },
-    //       { path: 'new-request', element: <NewRequestPage /> },
-    //       { path: 'chat', element: <ChatPage /> },
-    //       { index: true, element: <Navigate to="active-requests" replace /> },
-    //     ],
-    //   },
-    // ],
   },
   {
     path: '/login',
@@ -68,7 +49,11 @@ const router = createBrowserRouter([
   {
     path: '/user',
     element: (<ProtectedRoute element={<UserInfoPage />} />),
-  }
+  },
+  {
+    path: '/requests',
+    element: (<ProtectedRoute element={<ActiveRequestsPage />} />),
+  }  
 ]);
 
 function App() {

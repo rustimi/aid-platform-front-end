@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 export default function CardComponent({ id, activeId, type, title, setActiveId }) {
-    const isActiveClass = activeId === id ? 'bg-selected' : '';
+    const isActiveClass = activeId === id ? 'bg-warning' : '';
     const bg_color = type.toLowerCase() === 'material need' ? 'bg-secondary' : 'bg-custom';
 
     return (
