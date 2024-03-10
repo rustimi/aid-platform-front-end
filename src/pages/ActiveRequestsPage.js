@@ -3,14 +3,15 @@ import axios from 'axios';
 import { API_BASE_URL } from '../components/config';
 import RequestComponent from '../components/request';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { set } from 'lodash';
 
 export default function DashboardPage() {
     const [requests, setRequests] = useState([]);
     const [isRepublishable, SetIsRepublishable] = useState(false);
     const [showError, setShowError] = useState(false);
+    const [showFulfilled, setShowFulfilled] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
+
 
     const loadRequests = () => {
         setShowError(false);
@@ -65,6 +66,11 @@ export default function DashboardPage() {
             });
     }
 
+    const handleShowFulfilledClick = () => {
+        setShowFulfilled(!showFulfilled);
+    }
+
+
     return (<>
         <div className="container-fluid requests-container bg-primary-subtle p-0 m-0 justify-content-center row big-block   ">
             <div className='col-12 col-lg-11 bg-primary p-2 p-lg-5 pt-lg-0 mt-3 mb-3 shadow rounded'>
@@ -85,6 +91,10 @@ export default function DashboardPage() {
                 <div className='filter-requests row border-top m-auto'>
                     <button onClick={handleActiveClick} className={`btn ${isRepublishable ? 'btn-outline-warning' : 'btn-warning'} w-auto m-1 mt-2 mb-2`}>Active requests</button>
                     <button onClick={handleRepublishableClick} className={`btn ${isRepublishable ? 'btn-warning' : 'btn-outline-warning'} w-auto m-1 mt-2 mb-2`}>Republishable</button>
+                    <div class="form-check form-switch">
+                        <input type="checkbox" className="form-check-input bg-warning" id="customSwitch1" onClick={handleShowFulfilledClick} />
+                        <label className="form-check-label text-light" htmlFor="customSwitch1">Show fulfilled</label>
+                    </div>
                 </div>
                 <div className="new-request-contaienr d-flex justify-content-end">
                     <Link to="/requests/new" className="btn btn-warning btn-lg w-auto shadow">New Request
@@ -98,18 +108,24 @@ export default function DashboardPage() {
                     <div className={`alert alert-info ${requests.length === 0 ? 'd-block' : 'd-none'}`}>
                         <strong>Oops, no requests foud!</strong> <Link to="/request/new">Create a new request!</Link>
                     </div>
-                    {requests.map((request) => ( // Map over requests to render CardComponent
-                        <RequestComponent
-                            key={request.id}
-                            id={request.id}
-                            type={request.request_type}
-                            title={request.title}
-                            description={request.description}
-                            isRepublishable={isRepublishable}
-                            handleRepublishClick={handleRepublishClick}
-                            handleFulfillClick={handleFulfillClick}
-                        />
-                    ))}
+
+                    {requests.map((request) => { // Map over requests to render CardComponent 
+                        if ((showFulfilled && request.fulfilled) || (!showFulfilled && !request.fulfilled)) {
+                            return (
+                                <RequestComponent
+                                    key={request.id}
+                                    id={request.id}
+                                    type={request.request_type}
+                                    title={request.title}
+                                    description={request.description}
+                                    isRepublishable={isRepublishable}
+                                    handleRepublishClick={() => handleRepublishClick(request.id)}
+                                    handleFulfillClick={() => handleFulfillClick(request.id)}
+                                />
+                            );
+                        }
+                        return null; // Do not render anything if conditions are not met
+                    })}
                 </div>
             </div>
         </div>
