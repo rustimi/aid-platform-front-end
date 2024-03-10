@@ -1,11 +1,57 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { API_BASE_URL } from '../components/config';
-import BigCardComponent from '../components/bigCard';
-import MarkerComponent from '../components/marker';
-import { Link } from 'react-router-dom';
+import RequestComponent from '../components/request';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export default function DashboardPage() {
+    const [requests, setRequests] = useState([]);
+    const [isRepublishable, SetIsRepublishable] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const loadRequests = () => {
+        const searchParams = new URLSearchParams(location.search);
+        const isRepublishable = searchParams.get("republishable");
+        let apiUrl = `${API_BASE_URL}/users/requests`;
+
+        if (isRepublishable) {
+            SetIsRepublishable(true)
+            apiUrl += "?republishable=1";
+        }else{
+            SetIsRepublishable(false)
+        }
+        axios.get(`${apiUrl}`)
+            .then(response => {
+                setRequests(response.data.requests)
+            }).catch(error => {
+                console.log(error)
+            });
+    }
+
+    useEffect(() => { // Load requests
+        loadRequests();
+    }, [location.search]);
+
+
+    const handleRepublishableClick = () => {
+        navigate("/requests?republishable=1");
+    };
+    const handleActiveClick = () => {
+        navigate("/requests");
+    };
+
+    const handleRepublishClick = (id) => {console.log(id)}
+
+    const handleFulfillClick = (id) => { // Mark request as fulfilled
+        axios.post(`${API_BASE_URL}/users/requests/${id}/fulfill`)
+            .then(response => {
+                loadRequests();
+            }).catch(error => {
+                console.log(error)
+            });
+    }
+
     return (<>
         <div className="container-fluid requests-container bg-primary-subtle p-0 m-0 justify-content-center row big-block   ">
             <div className='col-12 col-lg-11 bg-primary p-2 p-lg-5 pt-lg-0 mt-3 mb-3 shadow rounded'>
@@ -21,11 +67,8 @@ export default function DashboardPage() {
                 </div>
                 <h1 className='text-light pb-2'>Active Requests</h1>
                 <div className='filter-requests row border-top m-auto'>
-                    <Link to='/' className='btn btn-warning w-auto m-1 mt-2 mb-2'>All</Link>
-                    <Link to='/' className='btn btn-outline-warning w-auto m-1 mt-2 mb-2'>Requests</Link>
-                    <Link to='/' className='btn btn-outline-warning w-auto m-1 mt-2 mb-2'>volunteering</Link>
-                    <Link to='/' className='btn btn-outline-warning w-auto m-1 mt-2 mb-2'>Republishable</Link>
-                    <Link to='/' className='btn btn-outline-warning w-auto m-1 mt-2 mb-2'>Fulfilled</Link>
+                    <button onClick={handleActiveClick} className={`btn ${isRepublishable ? 'btn-outline-warning': 'btn-warning' } w-auto m-1 mt-2 mb-2`}>Active requests</button>
+                    <button onClick={handleRepublishableClick} className={`btn ${isRepublishable ? 'btn-warning': 'btn-outline-warning' } w-auto m-1 mt-2 mb-2`}>Republishable</button>
                 </div>
                 <div className="new-request-contaienr d-flex justify-content-end">
                     <Link to="/new-request" className="btn btn-warning btn-lg w-auto shadow">New Request
@@ -36,10 +79,18 @@ export default function DashboardPage() {
                         </svg></Link>
                 </div>
                 <div className='request-cards-container mt-3 shadow'>
-                    <BigCardComponent  id={1} type="Material need" title="This is title" body="This is body" isVoluteer={true} />
-                    <BigCardComponent  id={2} type="Material need" title="This is title2" body="This is body2" isVoluteer={false} />
-                    <BigCardComponent  id={3} type="One time task" title="This is title3" body="This is body3" isVoluteer={false} />
-                    
+                    {requests.map((request) => ( // Map over requests to render CardComponent
+                        <RequestComponent
+                            key={request.id}
+                            id={request.id}
+                            type={request.request_type}
+                            title={request.title}
+                            description={request.description}
+                            isRepublishable={isRepublishable}
+                            handleRepublishClick={handleRepublishClick}
+                            handleFulfillClick={handleFulfillClick}
+                        />
+                    ))}
                 </div>
             </div>
         </div>
