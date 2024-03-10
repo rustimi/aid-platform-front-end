@@ -78,12 +78,12 @@ export default function DashboardPage() {
             <div className='col-12 col-lg-4 d-flex flex-column pt-2 requests-container'>
                 <Link to='/requests' className='btn bg-warning text-dark btn-lg mb-3'>See your requests
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4 4V20M8 12H20M20 12L16 8M20 12L16 16" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M4 4V20M8 12H20M20 12L16 8M20 12L16 16" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </Link>
                 <h1 className='text-light border-bottom'>People requests</h1>
                 <div className={`alert alert-info ${requests.length === 0 ? 'd-block' : 'd-none'}`}>
-                    <strong>Oops, no requests foud!</strong> Move the map to find some or <Link to="/new-request">create a new one!</Link>
+                    <strong>Oops, no requests foud!</strong> Move the map to find some or <Link to="/request/new">create a new one!</Link>
                 </div>
                 {requests.map((request) => ( // Map over requests to render CardComponent
                     <CardComponent

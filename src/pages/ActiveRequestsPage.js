@@ -87,7 +87,7 @@ export default function DashboardPage() {
                     <button onClick={handleRepublishableClick} className={`btn ${isRepublishable ? 'btn-warning' : 'btn-outline-warning'} w-auto m-1 mt-2 mb-2`}>Republishable</button>
                 </div>
                 <div className="new-request-contaienr d-flex justify-content-end">
-                    <Link to="/new-request" className="btn btn-warning btn-lg w-auto shadow">New Request
+                    <Link to="/requests/new" className="btn btn-warning btn-lg w-auto shadow">New Request
                         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect width="24" height="24" />
                             <path d="M12 6V18" stroke="#000000" strokeLinecap="round" strokeLinejoin="round" />
@@ -96,7 +96,7 @@ export default function DashboardPage() {
                 </div>
                 <div className='request-cards-container mt-3 shadow'>
                     <div className={`alert alert-info ${requests.length === 0 ? 'd-block' : 'd-none'}`}>
-                        <strong>Oops, no requests foud!</strong> <Link to="/new-request">Create a new request!</Link>
+                        <strong>Oops, no requests foud!</strong> <Link to="/request/new">Create a new request!</Link>
                     </div>
                     {requests.map((request) => ( // Map over requests to render CardComponent
                         <RequestComponent
