@@ -74,9 +74,16 @@
 }
 
 .bg-selected{
-  background-color: #66acf2 !important;
+  background-color: #FABC3C !important;
 }
 
+.bg-custom{
+  background-color: #1C607D;
+}
+
+.bg-primary-dark{
+  background-color: #012624;
+}
 
 // Styles for mobile view
 @media (max-width: 991.98px) {
