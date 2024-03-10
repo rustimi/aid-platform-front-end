@@ -11,6 +11,7 @@ export default function DashboardPage() {
     const navigate = useNavigate();
 
     const loadRequests = () => {
+        setRequests([]);
         const searchParams = new URLSearchParams(location.search);
         const isRepublishable = searchParams.get("republishable");
         let apiUrl = `${API_BASE_URL}/users/requests`;
@@ -41,7 +42,14 @@ export default function DashboardPage() {
         navigate("/requests");
     };
 
-    const handleRepublishClick = (id) => {console.log(id)}
+    const handleRepublishClick = (id) => {
+        axios.post(`${API_BASE_URL}/users/requests/${id}/republish`)
+            .then(response => {
+                loadRequests();
+            }).catch(error => {
+                console.log(error)
+            });
+    }
 
     const handleFulfillClick = (id) => { // Mark request as fulfilled
         axios.post(`${API_BASE_URL}/users/requests/${id}/fulfill`)
