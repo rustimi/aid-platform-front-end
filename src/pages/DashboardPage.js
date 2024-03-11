@@ -83,7 +83,7 @@ export default function DashboardPage() {
                 </Link>
                 <h1 className='text-light border-bottom'>People requests</h1>
                 <div className={`alert alert-info ${requests.length === 0 ? 'd-block' : 'd-none'}`}>
-                    <strong>Oops, no requests foud!</strong> Move the map to find some or <Link to="/request/new">create a new one!</Link>
+                    <strong>Oops, no requests foud!</strong> Move the map to find some or <Link to="/requests/new">create a new one!</Link>
                 </div>
                 {requests.map((request) => ( // Map over requests to render CardComponent
                     <CardComponent

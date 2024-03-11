@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../components/config';
@@ -13,6 +13,7 @@ export default function NewRequestPage() {
     const [createStatus, setCreateStatus] = useState(null);
     const [newRequestErrors, setNewRequestErrors] = useState({});
     const [searchResult, setSearchResult] = useState("Result: none");
+    const autocompleteInputRef = useRef(null);
 
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: "AIzaSyDcBfcLxJIXSvH2fZmYHrSTqS8w2E3-ywo",
@@ -25,7 +26,7 @@ export default function NewRequestPage() {
 
     function onPlaceChanged() {
         if (searchResult != null) {
-            const place = searchResult.getPlace();  
+            const place = searchResult.getPlace();
             setCoordinates({
                 lat: place.geometry.location.lat(),
                 lng: place.geometry.location.lng()
@@ -63,6 +64,22 @@ export default function NewRequestPage() {
             })
     };
 
+    useEffect(() => {
+        if (createStatus === true) {
+            setNewRequestErrors({});
+            setDescription('');
+            setTitle('');
+            setType('One time task');
+            setCoordinates({ lat: 0, lng: 0 });
+            if (autocompleteInputRef.current) {
+                autocompleteInputRef.current.value = "";
+            }
+
+            setTimeout(() => {
+                setCreateStatus(null);
+            }, 3000);
+        }
+    }, [createStatus]);
 
     return isLoaded ? (
         <>
@@ -84,6 +101,7 @@ export default function NewRequestPage() {
                             </div>
                             <Autocomplete onPlaceChanged={onPlaceChanged} onLoad={onLoad}>
                                 <input
+                                    ref={autocompleteInputRef}
                                     type="text"
                                     placeholder="Search for a place"
                                     className="form-control mb-2"
@@ -116,7 +134,7 @@ export default function NewRequestPage() {
                                 {newRequestErrors.type && <div className="text-danger">{newRequestErrors.type}</div>}
                             </div>
                             <button type="submit" className={`btn btn-dark w-100`}>Publish your request</button>
-                            <div className={`alert alert-success ${createStatus === true ? '' : 'd-none'}`} role="alert">
+                            <div className={`alert alert-success mt-2 ${createStatus === true ? '' : 'd-none'}`} role="alert">
                                 Create successful! :)
                             </div>
                         </form>

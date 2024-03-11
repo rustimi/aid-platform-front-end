@@ -106,7 +106,7 @@ export default function DashboardPage() {
                 </div>
                 <div className='request-cards-container mt-3 shadow'>
                     <div className={`alert alert-info ${requests.length === 0 ? 'd-block' : 'd-none'}`}>
-                        <strong>Oops, no requests foud!</strong> <Link to="/request/new">Create a new request!</Link>
+                        <strong>Oops, no requests foud!</strong> <Link to="/requests/new">Create a new request!</Link>
                     </div>
 
                     {requests.map((request) => { // Map over requests to render CardComponent 
