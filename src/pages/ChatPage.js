@@ -2,8 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../components/config';
-import { Autocomplete, useLoadScript } from '@react-google-maps/api';
-const placesLibrary = ["places"];
+import MessageComponent from '../components/message';
 
 export default function ChatPage() {
     const [messageBody, setMessageBody] = useState('');
@@ -49,19 +48,19 @@ export default function ChatPage() {
                         <div className="chat-page pb-2 pt-2 bg-white col-11 col-lg-8" style={{ borderRadius: '5px' }}>
                             <h1 className=" text-primary m-3">NOME - request title</h1>
                             <div className="conversation-container d-flex flex-column">
-                                <div className='message p-2 rounded bg-primary-subtle w-75 mb-2'>
-                                    <div className='message-content'>Hello, how can I help you?</div>
-                                    <div className='message-info'>
-                                        <div className='message-time float-start'>12:00</div>
-                                    </div>
-                                </div>
-                                <div className='message sent p-2 rounded bg-primary-subtle w-75 align-self-end'>
-                                    <div className='message-content'>Hello, how can I help you?</div>
-                                    <div className='message-info'>
-                                        <div className='message-seen float-end'>seen</div>
-                                        <div className='message-time float-start'>12:00</div>
-                                    </div>
-                                </div>
+                                <MessageComponent
+                                    body='Hello, how can I help you?'
+                                    time='12:00'
+                                    type='received'
+                                    isSent={false}
+                                    isSeen={true}
+                                />
+                                <MessageComponent
+                                    body='Hello, how can I help you in response'
+                                    time='12:00'
+                                    isSent={true}
+                                    isSeen={true}
+                                    />
                             </div>
                             <div className='new-message-container'>
                                 <form onSubmit={handleSubmitNewMessage} className='d-flex p-2' >
