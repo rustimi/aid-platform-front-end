@@ -87,6 +87,10 @@
   background-color: #012624;
 }
 
+.request-type label{
+  border: 1px solid white;
+}
+
 // Styles for mobile view
 @media (max-width: 991.98px) {
   .logo-img{
