@@ -8,10 +8,9 @@ import LogoutPage from './pages/LogoutPage';
 import DashboardPage from './pages/DashboardPage';
 import ActiveRequestsPage from './pages/ActiveRequestsPage';
 import NewRequestPage from './pages/NewRequestPage';
-// import ChatPage from './pages/ChatPage';
+import ChatPage from './pages/ChatPage';
 import UserInfoPage from './pages/UserInfoPage';
 import NotFoundPage from './pages/NotFoundPage';
-// import ProtectedRoute from './components/ProtectedRoute'; // Assuming ProtectedRoute is a component
 
 
 const ProtectedRoute = ({ element: Component }) => {
@@ -57,6 +56,10 @@ const router = createBrowserRouter([
   {
     path: '/requests/new',
     element: (<ProtectedRoute element={<NewRequestPage />} />),
+  },
+  {
+    path: '/requests/:id/chat',
+    element: (<ProtectedRoute element={<ChatPage />} />),
   }
 
 ]);
