@@ -15,7 +15,7 @@ export default function RequestComponent({ id, type, title, description, isRepub
                 {(!isRepublishable &&
                     <>
                         <button onClick={()=>{handleFulfillClick(id)}} className="float-start btn btn-link text-warning">Mark as complete</button>
-                        <Link to={`${id}/chat`} className="btn btn-warning float-end shadow">Chat</Link>
+                        <Link to={`${id}/conversations`} className="btn btn-warning float-end shadow">Conversations</Link>
                     </>
                 )}
                 {(isRepublishable &&

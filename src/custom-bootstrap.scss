@@ -50,7 +50,7 @@
 .pl-3{
   padding-left: ($spacer * .35) !important;
 }
-.requests-navigation{
+.requests-navigation, .conversations-navigation{
   height: 110px;
 }
 .requests-count{
@@ -88,7 +88,26 @@
 }
 
 .request-type label{
-  border: 1px solid white;
+  border
+  : 1px solid white;
+}
+
+.chat-page{
+  height: 90vh;
+}
+.conversation-container{
+  height: 80%;
+}
+.message{
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+.message .message-info{
+  font-size: 0.8rem;
+  color: #767B91;
+}
+.new-message-container{
+  height: 20%;
 }
 
 // Styles for mobile view
