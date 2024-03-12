@@ -13,9 +13,9 @@ export default function CardComponent({ id, activeId, type, title, setActiveId }
     const onClickFulfill = async () => {
         setErrorOnVolunteer(false);
         const response = await axios.post(`${API_BASE_URL}/requests/${id}/volunteer`);
-        
+
         if (response.status === 200 && response.data.conversation_id) {
-            navigate(`/requests/${id}/conversations/${response.data.conversation_id}`);
+            navigate(`/requests/${id}/conversations/${response.data.conversation_id}/chat`);
         } else {
             setErrorOnVolunteer(true);
             console.log('Error in volunteer request');
