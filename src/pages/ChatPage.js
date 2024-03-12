@@ -13,6 +13,7 @@ export default function ChatPage() {
 
     useEffect(() => { // Load conversations
         loadMessages()
+        setInterval(loadMessages, 3000);
     }, []);
 
     const loadMessages = () => {
@@ -68,7 +69,17 @@ export default function ChatPage() {
                             </div>
                             <div className='new-message-container'>
                                 <form onSubmit={handleSubmitNewMessage} className='d-flex p-2' >
-                                    <textarea type="text" className="form-control" value={messageBody} onChange={(e) => setMessageBody(e.target.value)} placeholder="New message" />
+                                    <textarea
+                                        type="text"
+                                        className="form-control"
+                                        value={messageBody}
+                                        onChange={(e) => setMessageBody(e.target.value)}
+                                        placeholder="New message"
+                                        onKeyDown={(e) => {
+                                            if (e.ctrlKey && e.key === 'Enter') {
+                                                handleSubmitNewMessage(e);
+                                            }
+                                        }} />
                                     <button type="submit" className={`btn btn-dark align-self-end m-3 mb-0`}>Send</button>
                                 </form>
                             </div>
