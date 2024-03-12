@@ -59,7 +59,7 @@ const router = createBrowserRouter([
     element: (<ProtectedRoute element={<NewRequestPage />} />),
   },
   {
-    path: '/requests/:id/conversations',
+    path: '/requests/:id/conversations/:conversationId',
     element: (<ProtectedRoute element={<ConversationsPage />} />),
   },
   {
