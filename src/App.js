@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
-import {isAuthenticated} from './components/AuthContext';
+import {useAuth} from './components/AuthContext';
 import HomePage from './pages/HomePage';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
@@ -15,13 +15,11 @@ import NotFoundPage from './pages/NotFoundPage';
 
 
 const ProtectedRoute = ({ element: Component }) => {
-  const auth = isAuthenticated();
-  return auth ? Component : <Navigate to="/login" replace />;
+  return useAuth().isAuthenticated ? Component : <Navigate to="/login" replace />;
 };
 
 const NotIfUserAuthenticatedRoute = ({ element: Component }) => {
-  const auth = isAuthenticated();
-  return !auth ? Component : <Navigate to="/dashboard" replace />;
+  return !useAuth().isAuthenticated ? Component : <Navigate to="/dashboard" replace />;
 };
 
 const router = createBrowserRouter([

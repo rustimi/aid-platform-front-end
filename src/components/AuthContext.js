@@ -4,14 +4,18 @@ import axios from 'axios';
 
 const AuthContext = createContext();
 
-export function useAuth() {
+export const useAuth = () => {
   return useContext(AuthContext);
 }
 
 export const AuthProvider = ({ children }) => {
   const [loginError, setLoginError] = useState(null); // State to track login errors
+  const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem('isAuthenticated') === 'true');
   
   const login = async (email, password) => {
+    setIsAuthenticated(false);
+    setLoginError(null)
+
     try {
       const response = await axios.post(`${API_BASE_URL}/login`, {
         email: email,
@@ -19,28 +23,28 @@ export const AuthProvider = ({ children }) => {
       });
   
       if (response.status === 200) {
-        // localStorage.setItem('token', response.headers.authorization);
-        return isAuthenticated(); 
+        localStorage.setItem('isAuthenticated', 'true');
+        setIsAuthenticated(true);
+        return true; // Login successful
       }
     } catch (error) {
-      let errorMessage = ''    
       if (error.response.data.error) {
-        errorMessage =  error.response.data.error
+        setLoginError(error.response.data.error)
       }else{
-        errorMessage = "Login failed due to server error"
+        setLoginError("Login failed due to server error")
       }
-      setLoginError(errorMessage);
     }
     return false; // Login failed
   };
   
 
-  const logout = () => {
+  const logout = async () => {
     // localStorage.removeItem('token');
     localStorage.removeItem('lat');
     localStorage.removeItem('lng');
     localStorage.removeItem('zoom');
-    axios.defaults.headers.common['Authorization'] = null
+    localStorage.removeItem('isAuthenticated');
+    setIsAuthenticated(false);
     setLoginError(null); 
   };
 
@@ -55,13 +59,3 @@ export const AuthProvider = ({ children }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
-export function isAuthenticated() {
-  // const token = localStorage.getItem('token');
-  // if (token !== null){
-  //   axios.defaults.headers.common['Authorization'] = token;
-  //   return true;
-  // }
-  // return false;
-  return true;
-}

@@ -6,12 +6,12 @@ import axios from 'axios';
 
 export default function HomePage() {
   const [RequestsCount, setRequestsCount] = useState(0);
-  const { isAuthenticated } = useAuth();
+  const authContext = useAuth();
 
 
   useEffect(() => {
     const fetchRequestCount = async () => {
-      const response = axios.get(`${API_BASE_URL}/requests/count`)
+      axios.get(`${API_BASE_URL}/requests/count`)
         .then(response => { setRequestsCount(response.data.requests_number); })
         .catch(error => console.error('Failed to fetch count:', error))
 
@@ -31,7 +31,7 @@ return (
           <h1>Kind Quest - community help</h1>
           <p>Be a part of power of the community!</p>
           <div className="requests-count bg-dark text-bg-dark p-2">Dont' miss out! Active requests: {RequestsCount}</div>
-          <div className={`row mt-3 ${isAuthenticated() ? 'd-none' : ''}`}>
+          <div className={`row mt-3 ${authContext.isAuthenticated ? 'd-none' : ''}`}>
             <div className="col -6">
               <Link to="/signup" className="btn btn-secondary w-100">Sign Up</Link>
             </div>
@@ -39,7 +39,7 @@ return (
               <Link to="/login" className="btn btn-secondary w-100">Login</Link>
             </div>
           </div>
-          <div className={`row mt-3 ${isAuthenticated() ? '' : 'd-none'}`}>
+          <div className={`row mt-3 ${authContext.isAuthenticated ? '' : 'd-none'}`}>
             <div className="col-10 mx-auto">
               <Link to="/dashboard" className="btn btn-secondary w-100">Go to Dashboard</Link>
             </div>

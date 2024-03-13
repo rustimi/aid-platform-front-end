@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../components/AuthContext';
 
 export default function LoginPage() {
-  const { login, loginError, setLoginError } = useAuth();
+  const authContext = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [ShowSpinner, setShowSpinner] = useState(false);
@@ -12,9 +12,9 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowSpinner(true)
-    setLoginError(null); 
+    authContext.setLoginError(null); 
 
-    const login_result = await login(email, password);
+    const login_result = await authContext.login(email, password);
     if (login_result === true) {
       // Redirect to another page on successful login
       navigate('/dashboard');
@@ -49,9 +49,9 @@ export default function LoginPage() {
           
           <button type="submit" className={`btn btn-primary w-100 ${ShowSpinner ? 'd-none' : ''}`}>Login</button>
           <Link to="/signup" className="text-dark">Signup</Link>
-          {loginError &&
+          {authContext.loginError &&
             <div className={'alert alert-danger mt-3'} role="alert">
-              {loginError}
+              {authContext.loginError}
             </div>
           }
 

@@ -3,11 +3,11 @@ import { useAuth } from '../components/AuthContext';
 import { useEffect } from 'react';
 
 export default function LogoutPage() {
-    const { logout } = useAuth();
+    const authContext = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
-        logout();
+        authContext.logout();
         navigate('/');    
     }, []);
 

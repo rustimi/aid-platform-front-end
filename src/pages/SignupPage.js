@@ -9,15 +9,14 @@ export default function SignupPage() {
     const [password, setPassword] = useState('');
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
-    const { login, loginError, setLoginError } = useAuth();
     const navigate = useNavigate();
     const [ShowSpinner, setShowSpinner] = useState(false);
     const [userCreateErrors, setUserCreateErrors] = useState({});
+    const authContext = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setShowSpinner(true);
-        setLoginError(null); 
 
         try {
             const response = await axios.put(`${API_BASE_URL}/users`, { // Create user
@@ -27,7 +26,7 @@ export default function SignupPage() {
                 password: password,
             });
             if (response.status === 201) { // User created, now login
-                let login_result = await login(email, password);
+                let login_result = await authContext.login(email, password);
 
                 if (login_result) {
                     navigate('/dashboard');
@@ -82,9 +81,9 @@ export default function SignupPage() {
                     </div>
                     <button type="submit" className={`btn btn-primary w-100 ${ShowSpinner ? 'd-none' : ''}`}>Signup</button>
                     <Link to="/login" className="text-dark">Login</Link>
-                    {loginError &&
+                    {authContext.loginError &&
                         <div className={'alert alert-danger mt-3'} role="alert">
-                            {loginError}
+                            {authContext.loginError}
                         </div>
                     }
 

@@ -62,7 +62,7 @@ export default function DashboardPage() {
                 .then(response => {
                     setRequests(response.data.requests);
                 }).catch(error => {
-                    console.error('Failed to fetch user info:', error);
+                    console.error('Failed to fetch requests info:', error);
                 });
 
             const center = bounds.getCenter()
