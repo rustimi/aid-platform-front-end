@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
       });
   
       if (response.status === 200) {
-        localStorage.setItem('token', response.headers.authorization);
+        // localStorage.setItem('token', response.headers.authorization);
         return isAuthenticated(); 
       }
     } catch (error) {
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
   
 
   const logout = () => {
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
     localStorage.removeItem('lat');
     localStorage.removeItem('lng');
     localStorage.removeItem('zoom');
@@ -57,10 +57,11 @@ export const AuthProvider = ({ children }) => {
 };
 
 export function isAuthenticated() {
-  const token = localStorage.getItem('token');
-  if (token !== null){
-    axios.defaults.headers.common['Authorization'] = token;
-    return true;
-  }
-  return false;
+  // const token = localStorage.getItem('token');
+  // if (token !== null){
+  //   axios.defaults.headers.common['Authorization'] = token;
+  //   return true;
+  // }
+  // return false;
+  return true;
 }
