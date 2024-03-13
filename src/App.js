@@ -1,5 +1,6 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import axios from 'axios';
 import {useAuth} from './components/AuthContext';
 import HomePage from './pages/HomePage';
 import SignupPage from './pages/SignupPage';
@@ -68,6 +69,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  axios.defaults.withCredentials = true
   return (
     <RouterProvider router={router} />
   );

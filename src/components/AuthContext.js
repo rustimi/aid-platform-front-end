@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }) => {
         email: email,
         password: password,
       });
-  
       if (response.status === 200) {
         localStorage.setItem('isAuthenticated', 'true');
         setIsAuthenticated(true);
