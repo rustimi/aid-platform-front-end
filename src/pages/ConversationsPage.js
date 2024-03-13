@@ -7,7 +7,6 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 export default function ConversationsPage() {
     const { id } = useParams();
     const [conversations, setConversations] = useState([]);
-    const navigate = useNavigate();
     const [showError, setShowError] = useState(false);
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import axios from 'axios';
-import {useAuth} from './components/AuthContext';
+import { useAuth } from './components/AuthContext';
 import HomePage from './pages/HomePage';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
@@ -70,6 +70,8 @@ const router = createBrowserRouter([
 
 function App() {
   axios.defaults.withCredentials = true
+  useAuth().checkSessionValid();
+  
   return (
     <RouterProvider router={router} />
   );
