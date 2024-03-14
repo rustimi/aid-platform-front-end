@@ -7,8 +7,8 @@ export default function CardComponent({ id, activeId, type, title, setActiveId }
     const navigate = useNavigate();
     const [errorOnVolunteer, setErrorOnVolunteer] = useState(false);
 
-    const isActiveClass = activeId === id ? 'bg-warning' : '';
-    const bg_color = type.toLowerCase() === 'material need' ? 'bg-secondary' : 'bg-custom';
+    const isActiveClass = activeId === id ? 'bg-action' : '';
+    const bg_color = type.toLowerCase() === 'material need' ? 'bg-material-need' : 'bg-one-time-task';
 
     const onClickFulfill = async () => {
         setErrorOnVolunteer(false);

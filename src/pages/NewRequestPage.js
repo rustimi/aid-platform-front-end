@@ -87,7 +87,7 @@ export default function NewRequestPage() {
                 <div className="row g-0">
                     <div className="col-12 big-block bg-primary d-flex flex-column align-items-center justify-content-center">
                         <div className='col-11 col-lg-8 mb-2'>
-                            <Link to="/requests" className="btn btn-warning btn-sm float-start ">Back</Link>
+                            <Link to="/requests" className="btn btn-action btn-sm float-start ">Back</Link>
                         </div>
                         <form onSubmit={handleSubmitNewRequest} className="p-4 bg-white col-11 col-lg-8 text-center" style={{ borderRadius: '5px' }}>
                             <h1 className="text-center text-primary">Create a new request!</h1>
@@ -109,7 +109,7 @@ export default function NewRequestPage() {
                             </Autocomplete>
                             {(newRequestErrors.latitude && newRequestErrors.longitude) && <><div className="pl-3 text-danger">{newRequestErrors.latitude}</div><div className="pl-3 text-danger">{newRequestErrors.longitude}</div></>}
                             <div className="request-type btn-group btn-group-toggle mb-2">
-                                <label className={`btn btn-primary ${type === 'Material need' ? 'btn-warning active' : 'btn-primary'}`}>
+                                <label className={`btn btn-primary ${type === 'Material need' ? 'btn-action active' : 'btn-primary'}`}>
                                     <input
                                         id="materialNeed"
                                         className="d-none"
@@ -120,7 +120,7 @@ export default function NewRequestPage() {
                                         onChange={(e) => setType(e.target.value)} />
                                     Material need
                                 </label>
-                                <label className={`label-request-type btn ${type === 'One time task' ? 'btn-warning active' : 'btn-primary'}`}>
+                                <label className={`label-request-type btn ${type === 'One time task' ? 'btn-action active' : 'btn-primary'}`}>
                                     <input
                                         id="oneTimeTask"
                                         className="d-none"

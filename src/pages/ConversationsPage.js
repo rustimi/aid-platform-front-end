@@ -26,7 +26,7 @@ export default function ConversationsPage() {
         <div className="container-fluid conversations-container bg-primary-subtle p-0 m-0 justify-content-center row big-block   ">
             <div className='col-12 col-lg-11 bg-primary p-2 p-lg-5 pt-lg-0 mt-3 mb-3 shadow rounded'>
                 <div className='col-12 mt-2 mb-2'>
-                    <Link to="/requests" className="btn btn-warning btn-sm ">Back</Link>
+                    <Link to="/requests" className="btn btn-action btn-sm ">Back</Link>
                 </div>
                 <h1 className='text-light pb-2'>Active Conversations</h1>
                 <div className={`alert alert-danger mt-3 ${showError ? 'd-block' : 'd-none'}`}>

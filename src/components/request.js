@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function RequestComponent({ id, type, title, description, isRepublishable, handleRepublishClick, handleFulfillClick }) {
-    const bg_color = type.toLowerCase() === 'material need' ? 'bg-secondary' : 'bg-custom';
+    const bg_color = type.toLowerCase() === 'material need' ? 'bg-material-need' : 'bg-one-time-task';
 
     return (
         <div className={`request card text-white mb-3 ${bg_color}`}>
@@ -14,12 +14,12 @@ export default function RequestComponent({ id, type, title, description, isRepub
                 <p className='card-text'>{description}</p>
                 {(!isRepublishable &&
                     <>
-                        <button onClick={()=>{handleFulfillClick(id)}} className="float-start btn btn-link text-warning">Mark as complete</button>
-                        <Link to={`${id}/conversations`} className="btn btn-warning float-end shadow">Conversations</Link>
+                        <button onClick={()=>{handleFulfillClick(id)}} className="float-start btn btn-link text-action">Mark as complete</button>
+                        <Link to={`${id}/conversations`} className="btn btn-action float-end shadow">Conversations</Link>
                     </>
                 )}
                 {(isRepublishable &&
-                    <button onClick={()=>{handleRepublishClick(id)}} className="btn btn-warning float-end shadow">Republish</button>
+                    <button onClick={()=>{handleRepublishClick(id)}} className="btn btn-action float-end shadow">Republish</button>
                 )}
             </div>
         </div>)

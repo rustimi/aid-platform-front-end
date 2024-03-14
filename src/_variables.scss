@@ -1,8 +1,23 @@
 
-$primary: #00413E;
-$secondary: #FF715B;
-$yellow: #FABC3C;
-$success: #439775;
-$info: #767B91;
-// $red: #BA1200;
-$white: #ECFEE8;
+$custom-colors: (
+    "action": #FABC3C,
+    "one-time-task": #1C607D,
+    "material-need": #FF715B
+);
+
+// Import Bootstrap's functions and variables
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+// Override button colors
+$theme-colors: map-merge($theme-colors, (
+  "primary": #00413E,
+  "secondary": #FF715B,
+  "success": #439775,
+  "info": #767B91,
+  "white": #ECFEE8,
+));
+
+@import "node_modules/bootstrap/scss/bootstrap";

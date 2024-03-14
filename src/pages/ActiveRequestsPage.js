@@ -89,15 +89,15 @@ export default function DashboardPage() {
                 </div>
                 <h1 className='text-light pb-2'>Active Requests</h1>
                 <div className='filter-requests row border-top m-auto'>
-                    <button onClick={handleActiveClick} className={`btn ${isRepublishable ? 'btn-outline-warning' : 'btn-warning'} w-auto m-1 mt-2 mb-2`}>Active requests</button>
-                    <button onClick={handleRepublishableClick} className={`btn ${isRepublishable ? 'btn-warning' : 'btn-outline-warning'} w-auto m-1 mt-2 mb-2`}>Republishable</button>
+                    <button onClick={handleActiveClick} className={`btn ${isRepublishable ? 'btn-outline-action' : 'btn-action'} w-auto m-1 mt-2 mb-2`}>Active requests</button>
+                    <button onClick={handleRepublishableClick} className={`btn ${isRepublishable ? 'btn-action' : 'btn-outline-action'} w-auto m-1 mt-2 mb-2`}>Republishable</button>
                     <div className="form-check form-switch">
-                        <input type="checkbox" className="form-check-input bg-warning" id="customSwitch1" onClick={handleShowFulfilledClick} />
+                        <input type="checkbox" className="form-check-input bg-action" id="customSwitch1" onClick={handleShowFulfilledClick} />
                         <label className="form-check-label text-light" htmlFor="customSwitch1">Show fulfilled</label>
                     </div>
                 </div>
                 <div className="new-request-contaienr d-flex justify-content-end">
-                    <Link to="/requests/new" className="btn btn-warning btn-lg w-auto shadow">New Request
+                    <Link to="/requests/new" className="btn btn-action btn-lg w-auto shadow">New Request
                         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect width="24" height="24" />
                             <path d="M12 6V18" stroke="#000000" strokeLinecap="round" strokeLinejoin="round" />

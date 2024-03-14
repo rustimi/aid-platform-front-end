@@ -50,7 +50,7 @@ export default function ChatPage() {
                 <div className="row g-0">
                     <div className="col-12 big-block bg-primary d-flex flex-column align-items-center justify-content-center">
                         <div className='col-11 col-lg-8 mb-2'>
-                            <Link to={`/requests/${id}/conversations`} className="btn btn-warning btn-sm float-start ">Back to conversations</Link>
+                            <Link to={`/requests/${id}/conversations`} className="btn btn-action btn-sm float-start ">Back to conversations</Link>
                         </div>
                         <div className="chat-page pb-2 pt-2 bg-white col-11 col-lg-8" style={{ borderRadius: '5px' }}>
                             <h1 className=" text-primary m-3 border-bottom  ">{requestTitle}</h1>
