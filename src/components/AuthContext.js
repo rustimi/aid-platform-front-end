@@ -53,13 +53,16 @@ export const AuthProvider = ({ children }) => {
 
   const checkSessionValid =  async () => {
     try {
-      await axios.get(`${API_BASE_URL}/session`);
-      setIsAuthenticated(true);
-      return true
-    } catch {
-      setIsAuthenticated(false);
-      return false
+      const status = await axios.get(`${API_BASE_URL}/session`);
+      if (status.status === 200){
+        setIsAuthenticated(true);
+        return true
+      }
+    } catch (error) {
+      console.error("Session check failed:", error);
     }
+    setIsAuthenticated(false);
+    return false;
   }
 
   const value = {
