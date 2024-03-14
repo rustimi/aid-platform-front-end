@@ -7,8 +7,9 @@ export default function LogoutPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        authContext.logout();
-        navigate('/');    
+        if (authContext.logout()){
+            navigate('/');    
+        }
     }, []);
 
 }

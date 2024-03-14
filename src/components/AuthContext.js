@@ -36,11 +36,19 @@ export const AuthProvider = ({ children }) => {
   
 
   const logout = async () => {
-    localStorage.removeItem('lat');
-    localStorage.removeItem('lng');
-    localStorage.removeItem('zoom');
-    setIsAuthenticated(false);
-    setLoginError(null); 
+    try {
+      const response = await axios.delete(`${API_BASE_URL}/logout`);
+      if (response.status === 200) {
+        localStorage.removeItem('lat');
+        localStorage.removeItem('lng');
+        localStorage.removeItem('zoom');
+        setIsAuthenticated(false);
+        return true
+      }
+    } catch (error) {
+        console.log(error)  
+    }
+    return false; // Login failed
   };
 
   const checkSessionValid =  async () => {

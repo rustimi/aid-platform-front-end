@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { API_BASE_URL } from '../components/config';
 import ConversationComponent from '../components/conversation';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 export default function ConversationsPage() {
     const { id } = useParams();
