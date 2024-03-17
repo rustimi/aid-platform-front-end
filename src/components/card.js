@@ -30,7 +30,7 @@ export default function CardComponent({ id, activeId, type, title, setActiveId }
                     There has been an error in the volunteer request. Please try again later
                 </div>
                 {activeId === id && (
-                    <button onClick={onClickFulfill} className="btn btn-primary float-end">Fulfill</button>
+                    <button onClick={onClickFulfill} className="btn btn-action float-end">Fulfill</button>
                 )}
             </div>
         </div>)

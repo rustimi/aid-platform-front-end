@@ -14,7 +14,7 @@ export default function RequestComponent({ id, type, title, description, isRepub
                 <p className='card-text'>{description}</p>
                 {(!isRepublishable &&
                     <>
-                        <button onClick={()=>{handleFulfillClick(id)}} className="float-start btn btn-link text-action">Mark as complete</button>
+                        <button onClick={()=>{handleFulfillClick(id)}} className="float-start btn btn-outline-action">Mark as complete</button>
                         <Link to={`${id}/conversations`} className="btn btn-action float-end shadow">Conversations</Link>
                     </>
                 )}

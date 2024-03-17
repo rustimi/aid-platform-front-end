@@ -7,7 +7,7 @@ import { API_BASE_URL } from '../components/config';
 export default function MarkerComponent({ id, activeId, position, type, title, description, setActiveId }) {
     const navigate = useNavigate();
     if (!position || !type) return null;
-    const icon_url = type.toLowerCase() === 'material need' ? '/map-pin-svgrepo-com-secondary.svg' : '/map-pin-svgrepo-com-custom.svg';
+    const icon_url = type.toLowerCase() === 'material need' ? '/map-pin-svgrepo-com-material-need.svg' : '/map-pin-svgrepo-com-one-time-task.svg';
     
     
     const onClickFulfill = async () => {
@@ -38,7 +38,7 @@ export default function MarkerComponent({ id, activeId, position, type, title, d
                 <div>
                     <h4>{title}</h4>
                     <p>{description}</p>
-                    <button onClick={onClickFulfill} className="btn btn-primary btn-sm w-100">Fulfill</button>
+                    <button onClick={onClickFulfill} className="btn btn-action btn-sm w-100">Fulfill</button>
                 </div>
             </InfoWindow>
         )}
